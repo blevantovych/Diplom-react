@@ -1,6 +1,5 @@
 import React from 'react';
 import Plot from './Plot';
-// import MathJax from 'react-mathjax';
 import Formula from './Formula';
 
 import truncateCoefs from '../helpers/truncateCoefs';
@@ -10,11 +9,6 @@ export default class Iteration extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     // console.log(this.formulaEl);
-    //     MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.formulaEl])
-    // }
-    
     render() {
 
         const alt = this.props.data.alternance.map((el, i) => {
@@ -28,7 +22,7 @@ export default class Iteration extends React.Component {
         err_alt.unshift(<td>Похибка</td>)
 
         return (
-            <div style={{border: '1px dashed gray', marginBottom: '10px'}}>
+            <div style={{border: '1px dashed gray', marginBottom: '10px', padding: '10px'}}>
                 
                 <h4 style={{color: 'green'}}>Ітерація {this.props.ctn+1}</h4>
                 <table className="table table-bordered">
@@ -37,17 +31,16 @@ export default class Iteration extends React.Component {
                         <tr>{err_alt}</tr>
                     </tbody>
                 </table>
-                <p>{this.props.data.alternance.map(el => el.toFixed(3)).join(' ')}</p>
                 <h4>Максимальна похибка
                     <b>{this.props.data.max_err.toFixed(5)}</b>
                 </h4>
                 <h4>Значення <i>x</i> в якому досягається максимальна похибка &nbsp;
                     <b>{this.props.data.x_of_max_err.toFixed(5)}</b></h4>
+
                 <h4>Продовжуємо алгоритм бо &nbsp;
                     <b>{this.props.data.err_diff.toFixed(5)} > 0.01</b></h4>
+
                 <h4>Аналітичний вигляд многочлена:
-                    {/*<span ref={(formula) => this.formulaEl = formula}>$${this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}$$</span>*/}
-                    {/*<MathJax.Node>{this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}</MathJax.Node>*/}
                     <Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/>
                 </h4>
                 <Plot id={this.props.ctn+1}/>
