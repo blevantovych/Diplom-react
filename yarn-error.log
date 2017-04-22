@@ -1,0 +1,63 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\bodya\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-autosuggest
+
+PATH: 
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files (x86)\Skype\Phone\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\MongoDB\Server\3.4\bin;C:\cygwin64\bin;C:\Users\bodya\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\bodya\Anaconda2;C:\Users\bodya\Anaconda2\Scripts;C:\Program Files\Heroku\bin
+
+Yarn version: 
+  0.21.3
+
+Node version: 
+  7.7.4
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  {
+    "name": "react-tutorials",
+    "version": "0.0.0",
+    "description": "",
+    "main": "webpack.config.js",
+    "dependencies": {
+      "babel-core": "^6.17.0",
+      "babel-loader": "^6.2.0",
+      "babel-plugin-add-module-exports": "^0.1.2",
+      "babel-plugin-react-html-attrs": "^2.0.0",
+      "babel-plugin-transform-class-properties": "^6.3.13",
+      "babel-plugin-transform-decorators-legacy": "^1.3.4",
+      "babel-preset-es2015": "^6.3.13",
+      "babel-preset-react": "^6.3.13",
+      "babel-preset-stage-0": "^6.3.13",
+      "css-loader": "^0.28.0",
+      "node-sass": "^4.5.2",
+      "react": "^15.4.2",
+      "react-dom": "^15.4.2",
+      "sass-loader": "^6.0.3",
+      "style-loader": "^0.16.1",
+      "webpack": "^1.12.9",
+      "webpack-dev-server": "^1.14.1"
+    },
+    "devDependencies": {
+      "css-loader": "^0.28.0",
+      "json-loader": "^0.5.4",
+      "node-sass": "^4.5.2",
+      "sass-loader": "^6.0.3",
+      "style-loader": "^0.16.1"
+    },
+    "scripts": {
+      "dev": "./node_modules/.bin/webpack-dev-server --content-base src --inline --hot",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'C:\Users\bodya\Desktop\Projects\REACT\learn-code-academy\1-basic-react\node_modules\node-sass\vendor\win32-x64-51\binding.node'
