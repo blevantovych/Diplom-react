@@ -7,8 +7,8 @@ class Plot extends Component {
 
     componentDidMount() {
         Plotly.newPlot('plot' + this.props.id, [{
-            x: [1, 2, 3, 4],
-            y: [-1, 2, 3, 4]
+            x: this.props.x,
+            y: this.props.y
         }])
     }
 

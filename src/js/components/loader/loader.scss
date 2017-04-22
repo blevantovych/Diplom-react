@@ -1,0 +1,29 @@
+.loader-wrapper {
+  background: #000;
+  margin: auto;
+  opacity: .4;
+  top: 0; right: 0; bottom: 0; left: 0;
+  position: fixed;
+  z-index: 1000;
+}
+
+.loader {
+  animation: loading 1s infinite linear;
+  border: 5px solid #fff;
+  border-bottom-color: #2288A9;
+  border-radius: 50%;
+  height: 20px;
+  margin: auto;
+  top: 0; right: 0; bottom: 0; left: 0;
+  position: absolute;
+  width: 20px;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

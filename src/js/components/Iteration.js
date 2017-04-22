@@ -43,7 +43,11 @@ export default class Iteration extends React.Component {
                 <h4>Аналітичний вигляд многочлена:
                     <Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/>
                 </h4>
-                <Plot id={this.props.ctn+1}/>
+                <Plot
+                    id={this.props.ctn+1}
+                    x={this.props.data.error_plot[0]}
+                    y={this.props.data.error_plot[1]}
+                />
             </div>
         );
     }
