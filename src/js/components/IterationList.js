@@ -21,7 +21,7 @@ export default class IterationList extends React.Component {
     }
 
     render() {
-        const iters = arr.map((el, i) => <Iteration key={i} ctn={i} data={el}/>)
+        const iters = arr.map((el, i) => <Iteration key={i} ctn={i} data={el} />)
         return (
             <div className="container">
                 {iters}

@@ -1,36 +1,7 @@
-body {
-    background: #f1f1f1;
+td:nth-of-type(2n+3) {
+    background: #f8f1ff;
 }
 
-.contact {
-    margin-right: 10px;
-    flex-basis: 350px;
-}
-
-h4 {
-    margin: 0;
-}
-
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    
-    li {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        // justifyContent: 'space-between',
-        // backgroundColor: 'red',
-        margin-bottom: 10px;
-        border: 1px dashed black;
-    }
-}
-
-.list {
-
-    width: 500px;
-    margin: 0 auto;
-    margin-top: 30px;
+td:nth-of-type(2n+2) {
+    background: whitesmoke;
 }
