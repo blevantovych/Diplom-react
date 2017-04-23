@@ -21,6 +21,7 @@ export default class Iteration extends React.Component {
         })
         err_alt.unshift(<td>Похибка</td>)
 
+        // console.log(this.props.data);
         return (
             <div style={{border: '1px dashed gray', marginBottom: '10px', padding: '10px'}}>
                 
@@ -47,6 +48,11 @@ export default class Iteration extends React.Component {
                     id={this.props.ctn+1}
                     x={this.props.data.error_plot[0]}
                     y={this.props.data.error_plot[1]}
+                />
+                <Plot
+                    id={this.props.ctn+1 + 'polynom'}
+                    x={this.props.data.pol_plot[0]}
+                    y={this.props.data.pol_plot[1]}
                 />
             </div>
         );

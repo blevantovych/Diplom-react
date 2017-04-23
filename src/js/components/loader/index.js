@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 
 import styles from './loader.scss';
 
-console.log(styles);
-
 const propTypes = {
   active: PropTypes.bool
 };
@@ -17,7 +15,6 @@ const Loader = ({ active }) => {
     <div className={active ? 'loader-wrapper' : 'hidden'}>
       <div className="loader" />
     </div>
-    // <div>This is loader</div>
   );
 };
 

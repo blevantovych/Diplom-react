@@ -20,6 +20,7 @@ export default class App extends React.Component {
             .then(r => r.json())
             .then(r => {
                 this.setState(Object.assign({}, {data: r}, {loaderActive: false}));
+                console.log(this.state);
             })
     }
 
