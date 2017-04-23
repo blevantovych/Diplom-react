@@ -6,17 +6,11 @@ class Plot extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        Plotly.newPlot('plot' + this.props.id, [{
-            x: this.props.x,
-            y: this.props.y
-        }])
+        Plotly.newPlot('plot' + this.props.id, this.props.plotData);
     }
 
     componentDidMount() {
-        Plotly.newPlot('plot' + this.props.id, [{
-            x: this.props.x,
-            y: this.props.y
-        }])
+        Plotly.newPlot('plot' + this.props.id, this.props.plotData);
     }
 
     render() {

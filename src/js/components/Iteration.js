@@ -45,14 +45,21 @@ export default class Iteration extends React.Component {
                 </h4>
                 <Plot
                     id={this.props.ctn+1}
-                    x={this.props.data.error_plot[0]}
-                    y={this.props.data.error_plot[1]}
+                    plotData={[{x: this.props.data.error_plot[0], y: this.props.data.error_plot[1]}]}
                 />
-                {this.props.isLast && <Plot
-                    id={this.props.ctn+1 + 'polynom'}
-                    x={this.props.data.pol_plot[0]}
-                    y={this.props.data.pol_plot[1]}
-                />}
+                {
+                    this.props.isLast &&
+                    <div>
+                        <h3>Функція і наближення многочленом</h3>
+                        <Plot
+                            id={this.props.ctn+1 + 'polynom'}
+                            plotData={[
+                                {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "f(x)"},
+                                {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "p(x)"}
+                            ]}
+                        />
+                    </div>
+                }
             </div>
         );
     }

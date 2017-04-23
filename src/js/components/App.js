@@ -31,12 +31,12 @@ export default class App extends React.Component {
 
         return (
             <MuiThemeProvider>
-                <Comparison />
-                {/*<div class="container">
+                {/*<Comparison />*/}
+                <div class="container">
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
                     <IterationList arr={arr}/>
-                </div>*/}
+                </div>
             </MuiThemeProvider>
         );
     }
