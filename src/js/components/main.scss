@@ -5,3 +5,11 @@ td:nth-of-type(2n+3) {
 td:nth-of-type(2n+2) {
     background: whitesmoke;
 }
+
+.form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

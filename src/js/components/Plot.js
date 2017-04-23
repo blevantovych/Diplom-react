@@ -6,7 +6,6 @@ class Plot extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('did update');
         Plotly.newPlot('plot' + this.props.id, [{
             x: this.props.x,
             y: this.props.y
@@ -14,21 +13,16 @@ class Plot extends Component {
     }
 
     componentDidMount() {
-        console.log('Plot did mount');
         Plotly.newPlot('plot' + this.props.id, [{
             x: this.props.x,
             y: this.props.y
         }])
-        // console.log('Plot props: ', this.props);
     }
 
     render() {
 
         return (
-            <div>
-                <h1>{this.props.x.length}</h1>
-                <div id={'plot' + this.props.id}></div>
-            </div>
+            <div id={'plot' + this.props.id}></div>
         );
     }
 }

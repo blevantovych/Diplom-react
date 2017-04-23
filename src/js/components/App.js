@@ -4,6 +4,7 @@ import Loader from './loader';
 import toArr from '../helpers/toArr';
 import Form from './Form';
 import './main.scss';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -28,11 +29,13 @@ export default class App extends React.Component {
         const arr = toArr(this.state.data);
 
         return (
-            <div class="container">
-                <Form onCalcClick={this.clickCalcHandler}/>
-                <Loader active={this.state.loaderActive}/>
-                <IterationList arr={arr}/>
-            </div>
+            <MuiThemeProvider>
+                <div class="container">
+                    <Form onCalcClick={this.clickCalcHandler}/>
+                    <Loader active={this.state.loaderActive}/>
+                    <IterationList arr={arr}/>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }

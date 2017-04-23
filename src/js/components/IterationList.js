@@ -8,9 +8,10 @@ export default class IterationList extends React.Component {
         super(props);
     }
 
-
     render() {
-        const iters = this.props.arr.map((el, i) => <Iteration key={i} ctn={i} data={el} />)
+        const iters = this.props.arr.map((el, i, a) => {
+            return <Iteration isLast={i === a.length - 1} key={i} ctn={i} data={el} /> 
+        })
         return (
             <div>
                 {iters}
