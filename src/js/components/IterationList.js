@@ -12,7 +12,7 @@ export default class IterationList extends React.Component {
     render() {
         const iters = this.props.arr.map((el, i) => <Iteration key={i} ctn={i} data={el} />)
         return (
-            <div className="container">
+            <div>
                 {iters}
             </div>
         );
