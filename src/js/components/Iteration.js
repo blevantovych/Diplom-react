@@ -36,9 +36,9 @@ export default class Iteration extends React.Component {
                 </h4>
                 <h4>Значення <i>x</i> в якому досягається максимальна похибка &nbsp;
                     <b>{this.props.data.x_of_max_err.toFixed(7)}</b></h4>
-
-                <h4>Продовжуємо алгоритм бо &nbsp;
-                    <b>{this.props.data.err_diff.toFixed(7)} > 0.01</b></h4>
+                
+                <h4>{this.props.isLast ? 'Алгоритм закінчено бо ' : 'Продовжуємо алгоритм бо '}
+                    <b>{this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} 0.01</b></h4>
 
                 <h4>Аналітичний вигляд многочлена:
                     <Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/>
