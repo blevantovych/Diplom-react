@@ -1,6 +1,7 @@
 import React from 'react';
 import IterationList from './IterationList';
 import Loader from './loader';
+import Comparison from './Comparison';
 import toArr from '../helpers/toArr';
 import Form from './Form';
 import './main.scss';
@@ -30,11 +31,12 @@ export default class App extends React.Component {
 
         return (
             <MuiThemeProvider>
-                <div class="container">
+                <Comparison />
+                {/*<div class="container">
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
                     <IterationList arr={arr}/>
-                </div>
+                </div>*/}
             </MuiThemeProvider>
         );
     }
