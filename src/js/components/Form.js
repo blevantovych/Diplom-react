@@ -21,25 +21,21 @@ class Form extends Component {
         return (
             <div class="form">
                 <TextField
-                    hintText="Функція, яку апроксимуємо"
                     floatingLabelText="Функція, яку апроксимуємо"
                     type="text"
                     onChange={e => {this.func = e.target.value; this.validate()}} />
 
                 <TextField
-                    hintText="Степінь многочлена"
                     floatingLabelText="Степінь многочлена"
                     type="number"
                     onChange={e => {this.deg = e.target.value; this.validate()}} />
 
                 <TextField
-                    hintText="Початок інтервалу"
                     floatingLabelText="Початок інтервалу"
                     type="number"
                     onChange={e => {this.start = e.target.value; this.validate()}} />
 
                 <TextField
-                    hintText="Кінець інтервалу"
                     floatingLabelText="Кінець інтервалу"
                     type="number"
                     onChange={e => {this.end = e.target.value; this.validate()}} />
