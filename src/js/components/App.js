@@ -6,6 +6,7 @@ import toArr from '../helpers/toArr';
 import Form from './Form';
 import './main.scss';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
             data: []
         };
         this.clickCalcHandler = this.clickCalcHandler.bind(this);
+        injectTapEventPlugin();
     }
     
     clickCalcHandler(func, start, end, deg) {
@@ -28,11 +30,9 @@ export default class App extends React.Component {
     }
 
     render() {
-        // const arr = toArr(this.state.data);
 
         return (
             <MuiThemeProvider>
-                {/*<Comparison />*/}
                 <div class="container">
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
