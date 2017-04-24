@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './Header';
 import IterationList from './IterationList';
 import Loader from './loader';
 import Comparison from './Comparison';
@@ -33,6 +34,7 @@ export default class App extends React.Component {
         return (
             <MuiThemeProvider>
                 <div class="container">
+                    <Header />
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
                     <IterationList arr={this.state.data} precision={this.state.precision}/>
