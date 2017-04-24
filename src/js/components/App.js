@@ -11,23 +11,24 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaderActive: false
+            loaderActive: false,
+            data: []
         };
         this.clickCalcHandler = this.clickCalcHandler.bind(this);
     }
     
     clickCalcHandler(func, start, end, deg) {
         this.setState({loaderActive: true});
-        fetch(`http://localhost:5000/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}`)
+        fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}`)
             .then(r => r.json())
             .then(r => {
-                this.setState(Object.assign({}, {data: r}, {loaderActive: false}));
+                this.setState({data: toArr(r), loaderActive: false});
                 console.log(this.state);
             })
     }
 
     render() {
-        const arr = toArr(this.state.data);
+        // const arr = toArr(this.state.data);
 
         return (
             <MuiThemeProvider>
@@ -35,7 +36,7 @@ export default class App extends React.Component {
                 <div class="container">
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
-                    <IterationList arr={arr}/>
+                    <IterationList arr={this.state.data}/>
                 </div>
             </MuiThemeProvider>
         );

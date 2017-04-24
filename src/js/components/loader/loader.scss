@@ -1,5 +1,11 @@
 .loader-wrapper {
   background: #000;
+  // width: 100vw;
+  // height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // text-align: center;
   margin: auto;
   opacity: .4;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -8,22 +14,23 @@
 }
 
 .loader {
-  animation: loading 1s infinite linear;
-  border: 50px solid #fff;
-  border-bottom-color: #2288A9;
-  border-radius: 50%;
-  height: 20px;
-  margin: auto;
-  top: 0; right: 0; bottom: 0; left: 0;
-  position: absolute;
-  width: 20px;
+  // animation: loading 1s infi/nite linear;
+  // border: 50px solid #fff;s
+  // border-bottom-color: #2288A9;
+  // border-radius: 50%;
+  // height: 20px;
+  
+  // margin: auto;
+  // top: 0; right: 0; bottom: 0; left: 0;
+  // position: absolute;
+  // width: 20px;
 }
 
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+// @keyframes loading {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }

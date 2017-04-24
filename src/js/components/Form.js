@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { TextField, RaisedButton } from 'material-ui';
 
+
 class Form extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { disabled: true }
-        this.validate = this.validate.bind(this);
+        this.state = {
+            disabled: false,
+            func: 'ln(x)',
+            deg: 1,
+            start: 1,
+            end: 3
+        };
     }
     
-    validate() {
-        if (this.func && this.deg && this.start && this.end) {
-            this.setState({disabled: false})
-        } else {
-            this.setState({disabled: true})
-        }
-    }
 
     render() {
         return (
@@ -23,27 +22,37 @@ class Form extends Component {
                 <TextField
                     floatingLabelText="Функція, яку апроксимуємо"
                     type="text"
-                    onChange={e => {this.func = e.target.value; this.validate()}} />
+                    defaultValue={this.state.func}
+                    onChange={(e) => this.setState({func: e.target.value})}
+                />
 
                 <TextField
                     floatingLabelText="Степінь многочлена"
                     type="number"
-                    onChange={e => {this.deg = e.target.value; this.validate()}} />
+                    defaultValue={this.state.deg}
+                    onChange={(e) => this.setState({deg: e.target.value})}
+                />
 
                 <TextField
                     floatingLabelText="Початок інтервалу"
                     type="number"
-                    onChange={e => {this.start = e.target.value; this.validate()}} />
+                    defaultValue={this.state.start}
+                    onChange={(e) => this.setState({start: e.target.value})}
+                />
 
                 <TextField
                     floatingLabelText="Кінець інтервалу"
                     type="number"
-                    onChange={e => {this.end = e.target.value; this.validate()}} />
+                    defaultValue={this.state.end}
+                    onChange={(e) => this.setState({end: e.target.value})}
+                />
 
                  <RaisedButton label="Обчислити"
                     primary={true}
                     disabled={this.state.disabled}
-                    onClick={() => this.props.onCalcClick(this.func, this.start, this.end, this.deg)} />
+                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg)}
+                />
+
             </div>
         );
     }
