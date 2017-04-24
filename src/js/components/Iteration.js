@@ -28,12 +28,12 @@ export default class Iteration extends React.Component {
         const alt = this.props.data.alternance.map((el, i) => {
             return <TableRowColumn key={i}>{el.toFixed(7)}</TableRowColumn>
         })
-        alt.unshift(<TableRowColumn>Точка альтернансу</TableRowColumn>)
+        alt.unshift(<TableRowColumn><h4>Точка альтернансу</h4></TableRowColumn>)
 
         const err_alt = this.props.data.err_in_each_point.map((el, i) => {
             return <TableRowColumn key={i}>{el.toFixed(7)}</TableRowColumn>
         })
-        err_alt.unshift(<TableRowColumn>Похибка</TableRowColumn>)
+        err_alt.unshift(<TableRowColumn><h4>Похибка</h4></TableRowColumn>)
 
         return (
             <div>
@@ -69,7 +69,7 @@ export default class Iteration extends React.Component {
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>{this.props.isLast ? 'Алгоритм закінчено бо ' : 'Продовжуємо алгоритм бо '}</TableRowColumn>
-                                    <TableRowColumn>{this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} 0.01</TableRowColumn>
+                                    <TableRowColumn>{this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} {this.props.precision}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>Аналітичний вигляд многочлена</TableRowColumn>
@@ -85,7 +85,7 @@ export default class Iteration extends React.Component {
                 </Card>
                 {
                     this.props.isLast &&
-                    <Card>>
+                    <Card>
                         <CardHeader
                             title={'Функція і наближення многочленом'}
                         />                        

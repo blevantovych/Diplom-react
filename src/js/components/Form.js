@@ -11,7 +11,8 @@ class Form extends Component {
             func: 'ln(x)',
             deg: 1,
             start: 1,
-            end: 3
+            end: 3,
+            presicion: 0.01
         };
     }
     
@@ -47,10 +48,17 @@ class Form extends Component {
                     onChange={(e) => this.setState({end: e.target.value})}
                 />
 
+                <TextField
+                    floatingLabelText="Точність"
+                    type="number"
+                    defaultValue={this.state.presicion}
+                    onChange={(e) => this.setState({presicion: e.target.value})}
+                />
+
                  <RaisedButton label="Обчислити"
                     primary={true}
                     disabled={this.state.disabled}
-                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg)}
+                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg, this.state.presicion)}
                 />
 
             </div>

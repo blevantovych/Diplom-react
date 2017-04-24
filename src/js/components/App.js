@@ -19,13 +19,12 @@ export default class App extends React.Component {
         injectTapEventPlugin();
     }
     
-    clickCalcHandler(func, start, end, deg) {
+    clickCalcHandler(func, start, end, deg, precision) {
         this.setState({loaderActive: true});
-        fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}`)
+        fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
             .then(r => {
-                this.setState({data: toArr(r), loaderActive: false});
-                console.log(this.state);
+                this.setState({data: toArr(r), loaderActive: false, precision});
             })
     }
 
@@ -36,7 +35,7 @@ export default class App extends React.Component {
                 <div class="container">
                     <Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
-                    <IterationList arr={this.state.data}/>
+                    <IterationList arr={this.state.data} precision={this.state.precision}/>
                 </div>
             </MuiThemeProvider>
         );
