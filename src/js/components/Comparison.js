@@ -18,7 +18,7 @@ class Comparison extends Component {
         this.getMaxErrs = this.getMaxErrs.bind(this);
     }
 
-    getMaxErrs(func, start, end, deg) {
+    getMaxErrs(func, start, end, deg, precision) {
   
         console.log('getting max errs');
         const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
@@ -26,7 +26,8 @@ class Comparison extends Component {
             body: `${func}|${deg}|${start}|${end}|10|4`
         }).then(res => res.json())
 
-        const minmax = () => fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}`).then(res => res.json())
+        const minmax = () => fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+                                .then(res => res.json())
 
         Promise.all([lssq(), minmax()]).then(data => {
             console.log(data)

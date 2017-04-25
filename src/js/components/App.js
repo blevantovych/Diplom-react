@@ -1,20 +1,22 @@
 import React from 'react';
 import Header from './Header';
-import IterationList from './IterationList';
-import Loader from './loader';
+// import IterationList from './IterationList';
+// import Loader from './loader';
 import Comparison from './Comparison';
 import toArr from '../helpers/toArr';
-import Form from './Form';
+// import Form from './Form';
 import './main.scss';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import Minmax from './Minmax';
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loaderActive: false,
-            data: []
+            data: [],
+            viewId: 2
         };
         this.clickCalcHandler = this.clickCalcHandler.bind(this);
         injectTapEventPlugin();
@@ -29,15 +31,49 @@ export default class App extends React.Component {
             })
     }
 
+    onMenuChange = (id) => {
+        // console.log(id);
+        this.setState({
+            viewId: id
+        });
+    }
+
     render() {
+        let view;
+        if (this.state.viewId === 1) {
+            view = <div>
+                    <Header title={'МНК'} onMenuChange={this.onMenuChange} />
+                    <h1>МНК</h1>
+                </div>
+        } else if (this.state.viewId === 2) {
+            view = <div>
+                <Header title={'Мінімакс'} onMenuChange={this.onMenuChange} />
+                <Minmax
+                    clickCalcHandler={this.clickCalcHandler}
+                    loaderActive={this.state.loaderActive}
+                    data={this.state.data} precision={this.state.precision}
+                />
+            </div>
+        } else if (this.state.viewId === 3) {
+            view = <div>
+                <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
+                <Comparison />
+            </div>
+        }
 
         return (
             <MuiThemeProvider>
-                <div class="container">
-                    <Header />
-                    <Form onCalcClick={this.clickCalcHandler}/>
+                <div>
+                    {view}
+                    {/*<Comparison />*/}
+                    {/*<Minmax
+                        clickCalcHandler={this.clickCalcHandler}
+                        loaderActive={this.state.loaderActive}
+                        data={this.state.data} precision={this.state.precision}
+                    />*/}
+                    {/*<Form onCalcClick={this.clickCalcHandler}/>
                     <Loader active={this.state.loaderActive}/>
-                    <IterationList arr={this.state.data} precision={this.state.precision}/>
+                    <IterationList arr={this.state.data} precision={this.state.precision}/>*/}
                 </div>
             </MuiThemeProvider>
         );
