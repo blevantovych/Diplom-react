@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import Plotly from 'plotly';
 
 class Plot extends Component {
     constructor(props) {

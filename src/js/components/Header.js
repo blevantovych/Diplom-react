@@ -29,6 +29,7 @@ class Header extends Component {
     render() {
         return (
             <AppBar
+                style={{position: 'fixed', top: 0, width: '60vw'}}
                 title={this.props.title}
                 showMenuIconButton={false}
                 iconElementRight={<Menu onMenuChange={this.props.onMenuChange} />}

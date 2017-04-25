@@ -9,6 +9,7 @@ import './main.scss';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Minmax from './Minmax';
+import LS from './LS';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -18,11 +19,19 @@ export default class App extends React.Component {
             data: [],
             viewId: 2
         };
-        this.clickCalcHandler = this.clickCalcHandler.bind(this);
         injectTapEventPlugin();
     }
     
-    clickCalcHandler(func, start, end, deg, precision) {
+    clickCalcLSHandler = (func, start, end, deg, precision) => {
+        this.setState({loaderActive: true});
+        fetch('https://least-squares.herokuapp.com/least_squares', {
+            method: 'POST',
+            body: `${func}|${deg}|${start}|${end}|10|4`
+        }).then(res => res.json())
+            .then(res => this.setState({dataLS: res, loaderActive: false, precision}))
+    }
+
+    clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
         this.setState({loaderActive: true});
         fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
@@ -37,25 +46,27 @@ export default class App extends React.Component {
             viewId: id
         });
     }
-
     render() {
+        const style = {position: 'relative', top: '60px'};
         let view;
         if (this.state.viewId === 1) {
-            view = <div>
+            view = <div style={style}>
                     <Header title={'МНК'} onMenuChange={this.onMenuChange} />
-                    <h1>МНК</h1>
+                    <LS clickCalcHandler={this.clickCalcLSHandler}
+                        loaderActive={this.state.loaderActive}
+                        data={this.state.dataLS} />
                 </div>
         } else if (this.state.viewId === 2) {
-            view = <div>
+            view = <div style={style}>
                 <Header title={'Мінімакс'} onMenuChange={this.onMenuChange} />
                 <Minmax
-                    clickCalcHandler={this.clickCalcHandler}
+                    clickCalcHandler={this.clickCalcMinmaxHandler}
                     loaderActive={this.state.loaderActive}
                     data={this.state.data} precision={this.state.precision}
                 />
             </div>
         } else if (this.state.viewId === 3) {
-            view = <div>
+            view = <div style={style}>
                 <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
                 <Comparison />
             </div>
@@ -63,7 +74,7 @@ export default class App extends React.Component {
 
         return (
             <MuiThemeProvider>
-                <div>
+                <div style={{width: '60vw', margin: 'auto'}}>
                     {view}
                     {/*<Comparison />*/}
                     {/*<Minmax
