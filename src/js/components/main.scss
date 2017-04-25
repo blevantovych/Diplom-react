@@ -1,10 +1,11 @@
 .form {
-  // position: relative;
-  // top: 60px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  // margin-bottom: 20px;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: whitesmoke;
 }

@@ -1,2 +1,4 @@
 * add validation for input fields (degree cannot be fractional)
-* add material-ui Card for iteration 
+* resize graph on window resize
+* add history
+* add login/logout

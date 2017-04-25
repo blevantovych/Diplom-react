@@ -59,7 +59,7 @@ export default class Iteration extends React.Component {
 
                         <Table>
                             <TableBody displayRowCheckbox={false}>
-                                <TableRow>
+                                <TableRow >
                                     <TableRowColumn>Максимальна похибка</TableRowColumn>
                                     <TableRowColumn>{this.props.data.max_err.toFixed(7)}</TableRowColumn>
                                 </TableRow>
@@ -86,11 +86,10 @@ export default class Iteration extends React.Component {
                 {
                     this.props.isLast &&
                     <Card>
-                        <CardHeader
-                            title={'Функція і наближення многочленом'}
-                        />                        
+   
                         <Plot
                             id={this.props.ctn+1 + 'polynom'}
+                            title={'Функція і наближення многочленом'}
                             plotData={[
                                 {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "f(x)"},
                                 {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "p(x)"}

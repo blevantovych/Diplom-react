@@ -70,6 +70,8 @@ export default class App extends React.Component {
                 <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
                 <Comparison />
             </div>
+        } else if (this.state.viewId === 4) {
+            view = <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
         }
 
         return (
