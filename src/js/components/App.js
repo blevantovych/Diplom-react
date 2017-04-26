@@ -17,11 +17,49 @@ export default class App extends React.Component {
         this.state = {
             loaderActive: false,
             data: [],
-            viewId: 2
+            dataLs: [],
+            viewId: 2,
+            comparison: {
+                lssq: {
+                    max_error: 0,
+                    x_of_max_error: 0
+                },
+                minmax: {
+                    max_err: 0,
+                    x_of_max_err: 0,
+                    func_plot: [],
+                    pol_plot: []
+                }
+            }
         };
         injectTapEventPlugin();
     }
     
+    getMaxErrs = (func, start, end, deg, precision) => {
+
+        this.setState({loaderActive: true});
+        console.log('getting max errs');
+        const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
+            method: 'POST',
+            body: `${func}|${deg}|${start}|${end}|10|4`
+        }).then(res => res.json())
+
+        const minmax = () => fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+                                .then(res => res.json())
+
+        Promise.all([lssq(), minmax()]).then(data => {
+            console.log(data);
+            this.setState({
+                comparison: {
+                    lssq: data[0],
+                    minmax: toArr(data[1]).last(),
+                },
+                loaderActive: false
+                
+            })
+        })
+    }
+
     clickCalcLSHandler = (func, start, end, deg, precision) => {
         this.setState({loaderActive: true});
         fetch('https://least-squares.herokuapp.com/least_squares', {
@@ -46,6 +84,7 @@ export default class App extends React.Component {
             viewId: id
         });
     }
+
     render() {
         const style = {position: 'relative', top: '60px'};
         let view;
@@ -68,7 +107,7 @@ export default class App extends React.Component {
         } else if (this.state.viewId === 3) {
             view = <div style={style}>
                 <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
-                <Comparison />
+                <Comparison clickCalcHandler={this.getMaxErrs} minmax={this.state.comparison.minmax} lssq={this.state.comparison.lssq} />
             </div>
         } else if (this.state.viewId === 4) {
             view = <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
