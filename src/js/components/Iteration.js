@@ -80,6 +80,7 @@ export default class Iteration extends React.Component {
                         <Plot
                             id={this.props.ctn+1}
                             plotData={[{x: this.props.data.error_plot[0], y: this.props.data.error_plot[1]}]}
+                            title={'Графік функції похибки'}
                         />
                     </CardText>
                 </Card>

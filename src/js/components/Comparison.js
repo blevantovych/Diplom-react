@@ -1,11 +1,13 @@
 import React, { Component, PureComponent } from 'react';
 import toArr from '../helpers/toArr';
 import Form from './Form';
+import truncateCoefs from '../helpers/truncateCoefs';
 
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import { Card, CardText } from 'material-ui/Card';
 import Loader from './loader';
 import Plot from './Plot';
+import Formula from './Formula';
 
 if (!Array.prototype.last){
     Array.prototype.last = function(){
@@ -16,19 +18,6 @@ if (!Array.prototype.last){
 class Comparison extends PureComponent {
     constructor(props) {
         super(props);
-        // this.props = {
-        //     lssq: {
-        //         max_error: 0,
-        //         x_of_max_error: 0
-        //     },
-        //     minmax: {
-        //         max_err: 0,
-        //         x_of_max_err: 0,
-        //         func_plot: [],
-        //         pol_plot: []
-        //     },
-        //     loaderActive: false
-        // }
     }
 
     
@@ -49,8 +38,7 @@ class Comparison extends PureComponent {
                         />
         return (
             <div>
-                <Form onCalcClick={this.props.clickCalcHandler}/>
-                {/*<Loader active={this.props.loaderActive}/>*/}
+                <Form onCalcClick={this.props.clickCalcHandler} lssq={true} minmax={true} />
                 <div style={{width: '90vw', position: "absolute", left: '-15vw'}}>
                     <Card>
                         <CardText>
@@ -70,6 +58,12 @@ class Comparison extends PureComponent {
                                         <TableRowColumn width={'20%'}>x в якому макс похибка</TableRowColumn>
                                         <TableRowColumn>{this.props.minmax.x_of_max_err.toFixed(4)}</TableRowColumn>
                                         <TableRowColumn>{this.props.lssq.x_of_max_error.toFixed(4)}</TableRowColumn>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableRowColumn width={'20%'}>Аналітичний вигляд</TableRowColumn>
+                                        <TableRowColumn><Formula formula={this.props.minmax.polynom_latex.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
+                                        <TableRowColumn><Formula formula={this.props.lssq.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
+
                                     </TableRow>
                                     <TableRow>
                                         <TableRowColumn width={'20%'}>Графіки</TableRowColumn>

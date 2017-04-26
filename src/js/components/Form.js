@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { TextField, RaisedButton } from 'material-ui';
 
 
-class Form extends Component {
+class Form extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -12,11 +12,13 @@ class Form extends Component {
             deg: 1,
             start: 1,
             end: 3,
-            presicion: 0.01
+            presicion: 0.01,
+            points: 10
         };
     }
-    
+
     render() {
+
         return (
             <div class="form">
                 <TextField
@@ -47,17 +49,24 @@ class Form extends Component {
                     onChange={(e) => this.setState({end: e.target.value})}
                 />
 
-                <TextField
+                {this.props.minmax && <TextField
                     floatingLabelText="Точність"
                     type="number"
                     defaultValue={this.state.presicion}
                     onChange={(e) => this.setState({presicion: e.target.value})}
-                />
+                />}
+
+                {this.props.lssq && <TextField
+                    floatingLabelText="Точки розбиття"
+                    type="number"
+                    defaultValue={this.state.points}
+                    onChange={(e) => this.setState({points: e.target.value})}
+                />}
 
                  <RaisedButton label="Обчислити"
                     primary={true}
                     disabled={this.state.disabled}
-                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg, this.state.presicion)}
+                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg, this.state.presicion, this.state.points)}
                 />
 
             </div>

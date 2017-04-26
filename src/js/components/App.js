@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 // import IterationList from './IterationList';
-// import Loader from './loader';
+import Loader from './loader';
 import Comparison from './Comparison';
 import toArr from '../helpers/toArr';
 // import Form from './Form';
@@ -15,6 +15,8 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isMinmax: true,
+            isLssq: false,
             loaderActive: false,
             data: [],
             dataLs: [],
@@ -22,13 +24,15 @@ export default class App extends React.Component {
             comparison: {
                 lssq: {
                     max_error: 0,
-                    x_of_max_error: 0
+                    x_of_max_error: 0,
+                    formula: ''
                 },
                 minmax: {
                     max_err: 0,
                     x_of_max_err: 0,
                     func_plot: [],
-                    pol_plot: []
+                    pol_plot: [],
+                    polynom_latex: ''
                 }
             }
         };
@@ -38,7 +42,6 @@ export default class App extends React.Component {
     getMaxErrs = (func, start, end, deg, precision) => {
 
         this.setState({loaderActive: true});
-        console.log('getting max errs');
         const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|10|4`
@@ -48,7 +51,6 @@ export default class App extends React.Component {
                                 .then(res => res.json())
 
         Promise.all([lssq(), minmax()]).then(data => {
-            console.log(data);
             this.setState({
                 comparison: {
                     lssq: data[0],
@@ -60,11 +62,11 @@ export default class App extends React.Component {
         })
     }
 
-    clickCalcLSHandler = (func, start, end, deg, precision) => {
+    clickCalcLSHandler = (func, start, end, deg, precision, points) => {
         this.setState({loaderActive: true});
         fetch('https://least-squares.herokuapp.com/least_squares', {
             method: 'POST',
-            body: `${func}|${deg}|${start}|${end}|10|4`
+            body: `${func}|${deg}|${start}|${end}|${points}`
         }).then(res => res.json())
             .then(res => this.setState({dataLS: res, loaderActive: false, precision}))
     }
@@ -79,7 +81,6 @@ export default class App extends React.Component {
     }
 
     onMenuChange = (id) => {
-        // console.log(id);
         this.setState({
             viewId: id
         });
@@ -92,7 +93,6 @@ export default class App extends React.Component {
             view = <div style={style}>
                     <Header title={'МНК'} onMenuChange={this.onMenuChange} />
                     <LS clickCalcHandler={this.clickCalcLSHandler}
-                        loaderActive={this.state.loaderActive}
                         data={this.state.dataLS} />
                 </div>
         } else if (this.state.viewId === 2) {
@@ -100,7 +100,6 @@ export default class App extends React.Component {
                 <Header title={'Мінімакс'} onMenuChange={this.onMenuChange} />
                 <Minmax
                     clickCalcHandler={this.clickCalcMinmaxHandler}
-                    loaderActive={this.state.loaderActive}
                     data={this.state.data} precision={this.state.precision}
                 />
             </div>
@@ -117,15 +116,7 @@ export default class App extends React.Component {
             <MuiThemeProvider>
                 <div style={{width: '60vw', margin: 'auto'}}>
                     {view}
-                    {/*<Comparison />*/}
-                    {/*<Minmax
-                        clickCalcHandler={this.clickCalcHandler}
-                        loaderActive={this.state.loaderActive}
-                        data={this.state.data} precision={this.state.precision}
-                    />*/}
-                    {/*<Form onCalcClick={this.clickCalcHandler}/>
-                    <Loader active={this.state.loaderActive}/>
-                    <IterationList arr={this.state.data} precision={this.state.precision}/>*/}
+                    <Loader active={this.state.loaderActive} />
                 </div>
             </MuiThemeProvider>
         );

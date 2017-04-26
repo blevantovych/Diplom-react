@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import IterationList from './IterationList';
-import Loader from './loader';
 import Form from './Form';
 import Plot from './Plot';
 
@@ -13,11 +12,9 @@ import { Card, CardText } from 'material-ui/Card';
 
 class LS extends Component {
     render() {
-        console.log(this.props);
         return (
             <div>
-                <Form onCalcClick={this.props.clickCalcHandler} />
-                <Loader active={this.props.loaderActive} />
+                <Form onCalcClick={this.props.clickCalcHandler} lssq={true} />
                 
                 {this.props.data &&
                     <Card>

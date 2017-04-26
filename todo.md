@@ -3,3 +3,5 @@
 * add history
 * add login/logout
 * minmax fails when precision too high (for example 1)
+* form should perist it values
+
