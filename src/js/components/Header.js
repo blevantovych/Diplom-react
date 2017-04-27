@@ -8,7 +8,6 @@ import Toggle from 'material-ui/Toggle';
 
 import Hamburger from 'material-ui/svg-icons/navigation/menu';
 
-
 const Menu = (props) => (
     <IconMenu
         {...props}

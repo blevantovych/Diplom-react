@@ -1,16 +1,18 @@
 import React from 'react';
-import Header from './Header';
-// import IterationList from './IterationList';
-import Loader from './loader';
-import Comparison from './Comparison';
-import toArr from '../helpers/toArr';
-// import Form from './Form';
-import './main.scss';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import Minmax from './Minmax';
-import LS from './LS';
 import Rebase from 're-base';
+
+import Header from './Header';
+import Loader from './loader';
+import LS from './LS';
+import Minmax from './Minmax';
+import Comparison from './Comparison';
+import History from './History';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './main.scss';
+
+import toArr from '../helpers/toArr';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
@@ -49,14 +51,20 @@ export default class App extends React.Component {
     }
 
     
-    saveToFire = (func) => {
+    saveToFire = (data) => {
         base.post('history', {
-            data: this.state.history.concat([{func}])
+            data: this.state.history.concat([data])
         })
     }
     
-    getMaxErrs = (func, start, end, deg, precision) => {
-
+    getMaxErrs = (func, start, end, deg, precision, points) => {
+         let result = {
+            type: 'comp',
+            id: `${func}|${start}|${end}|${deg}|${precision}|${points}`,
+            inputData: {
+                func, start, end, deg, points, precision
+            }
+        }
         this.setState({loaderActive: true});
         const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
             method: 'POST',
@@ -73,27 +81,47 @@ export default class App extends React.Component {
                     minmax: toArr(data[1]).last(),
                 },
                 loaderActive: false
-                
             })
+            result.output = data
+            this.saveToFire(result)
         })
     }
 
     clickCalcLSHandler = (func, start, end, deg, precision, points) => {
+        let result = {
+            type: 'lssq',
+            id: `${func}|${start}|${end}|${deg}|${points}`,
+            inputData: {
+                func, start, end, deg, points
+            }
+        }
         this.setState({loaderActive: true});
         fetch('https://least-squares.herokuapp.com/least_squares', {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|${points}`
         }).then(res => res.json())
-            .then(res => this.setState({dataLS: res, loaderActive: false, precision}))
+            .then(res => {
+                this.setState({dataLS: res, loaderActive: false, precision})
+                result.output = res
+                this.saveToFire(result)
+            })
     }
 
     clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
-        this.saveToFire(func)
+        let result = {
+            type: 'minmax',
+            id: `${func}|${start}|${end}|${deg}|${precision}`,
+            inputData: {
+                func, start, end, deg, precision
+            }
+        }
         this.setState({loaderActive: true});
         fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
             .then(r => {
                 this.setState({data: toArr(r), loaderActive: false, precision});
+                result.output = r
+                this.saveToFire(result)
             })
     }
 
@@ -104,7 +132,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        const style = {position: 'relative', top: '60px'};
+        const style = {position: 'relative', top: '60px', marginBottom: '60px'};
         let view;
         if (this.state.viewId === 1) {
             view = <div style={style}>
@@ -126,7 +154,10 @@ export default class App extends React.Component {
                 <Comparison clickCalcHandler={this.getMaxErrs} minmax={this.state.comparison.minmax} lssq={this.state.comparison.lssq} />
             </div>
         } else if (this.state.viewId === 4) {
-            view = <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
+            view = <div  style={style}>
+                <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
+                <History history={this.state.history}/>
+            </div>  
         }
 
         return (

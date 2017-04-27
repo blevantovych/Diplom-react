@@ -75,6 +75,10 @@ export default class Iteration extends React.Component {
                                     <TableRowColumn>Аналітичний вигляд многочлена</TableRowColumn>
                                     <TableRowColumn><Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                 </TableRow>
+                                <TableRow>
+                                    <TableRowColumn>For desmos</TableRowColumn>
+                                    <TableRowColumn>{this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}</TableRowColumn>
+                                </TableRow>
                             </TableBody>
                         </Table>
                         <Plot
