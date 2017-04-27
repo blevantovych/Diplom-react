@@ -6,6 +6,7 @@ import Iteration from './Iteration';
 export default class IterationList extends React.Component {
     constructor(props) {
         super(props);
+        console.log('Iterations list consturcot invoked');
     }
 
     render() {

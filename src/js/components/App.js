@@ -10,11 +10,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Minmax from './Minmax';
 import LS from './LS';
+import Rebase from 're-base';
+
+const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            history: [],
             isMinmax: true,
             isLssq: false,
             loaderActive: false,
@@ -36,7 +40,19 @@ export default class App extends React.Component {
                 }
             }
         };
+         this.ref = base.bindToState('history', {
+            context: this,
+            asArray: true,
+            state: 'history'
+        });
         injectTapEventPlugin();
+    }
+
+    
+    saveToFire = (func) => {
+        base.post('history', {
+            data: this.state.history.concat([{func}])
+        })
     }
     
     getMaxErrs = (func, start, end, deg, precision) => {
@@ -72,6 +88,7 @@ export default class App extends React.Component {
     }
 
     clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
+        this.saveToFire(func)
         this.setState({loaderActive: true});
         fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())

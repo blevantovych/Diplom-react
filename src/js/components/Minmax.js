@@ -5,6 +5,11 @@ import Form from './Form';
 
 
 class Minmax extends Component {
+    constructor(props) {
+        super(props);
+        console.log('Minmax constructor invoked');
+    }
+    
     render() {
         return (
             <div>

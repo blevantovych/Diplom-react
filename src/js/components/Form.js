@@ -1,24 +1,22 @@
 import React, { Component, PureComponent } from 'react';
 import { TextField, RaisedButton } from 'material-ui';
 
-
 class Form extends PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            disabled: false,
-            func: 'ln(x)',
-            deg: 1,
-            start: 1,
-            end: 3,
-            presicion: 0.01,
-            points: 10
+                disabled: false,
+                func: 'ln(x)',
+                deg: 1,
+                start: 1,
+                end: 3,
+                presicion: 0.01,
+                points: 10
         };
     }
-
+    
     render() {
-
         return (
             <div class="form">
                 <TextField
