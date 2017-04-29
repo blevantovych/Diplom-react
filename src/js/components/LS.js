@@ -14,7 +14,7 @@ class LS extends Component {
     render() {
         return (
             <div>
-                <Form onCalcClick={this.props.clickCalcHandler} lssq={true} />
+                <Form formData={this.props.formData} onCalcClick={this.props.clickCalcHandler} lssq={true} />
                 
                 {this.props.data &&
                     <Card>

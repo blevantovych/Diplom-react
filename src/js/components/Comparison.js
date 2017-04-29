@@ -38,7 +38,7 @@ class Comparison extends PureComponent {
                         />
         return (
             <div>
-                <Form onCalcClick={this.props.clickCalcHandler} lssq={true} minmax={true} />
+                <Form formData={this.props.formData} onCalcClick={this.props.clickCalcHandler} lssq={true} minmax={true} />
                 <div style={{width: '90vw', position: "absolute", left: '-15vw', margin: '30px 0'}}>
                     <Card>
                         <CardText>

@@ -13,7 +13,7 @@ class Minmax extends Component {
     render() {
         return (
             <div>
-                <Form onCalcClick={this.props.clickCalcHandler} minmax={true}/>
+                <Form formData={this.props.formData} onCalcClick={this.props.clickCalcHandler} minmax={true}/>
                 <IterationList arr={this.props.data} precision={this.props.precision}/>
             </div>
         );

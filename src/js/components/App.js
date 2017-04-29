@@ -3,10 +3,12 @@ import Rebase from 're-base';
 
 import Header from './Header';
 import Loader from './loader';
+import ErrorMessage from './ErrorMessage'
 import LS from './LS';
 import Minmax from './Minmax';
 import Comparison from './Comparison';
 import History from './History';
+
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './main.scss';
@@ -16,6 +18,37 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
+
+let formsStates = {
+    minmax: {
+        disabled: false,
+        func: 'ln(x)',
+        deg: 1,
+        start: 1,
+        end: 3,
+        presicion: 0.01,
+        points: 10
+    },
+    lssq: {
+        disabled: false,
+        func: 'ln(x)',
+        deg: 1,
+        start: 1,
+        end: 3,
+        presicion: 0.01,
+        points: 10
+    },
+    comp: {
+        disabled: false,
+        func: 'ln(x)',
+        deg: 1,
+        start: 1,
+        end: 3,
+        presicion: 0.01,
+        points: 10
+    }
+}
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -24,6 +57,7 @@ export default class App extends React.Component {
             isMinmax: true,
             isLssq: false,
             loaderActive: false,
+            errorMessage: false,
             data: [],
             dataLs: [],
             viewId: 2,
@@ -51,6 +85,7 @@ export default class App extends React.Component {
     }
 
     
+
     saveToFire = (data) => {
         base.post('history', {
             data: this.state.history.concat([data])
@@ -67,11 +102,13 @@ export default class App extends React.Component {
         }
         this.setState({loaderActive: true});
         const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
+        // const lssq = () => fetch('http://localhost:5000/least_squares', {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|10|4`
         }).then(res => res.json())
 
         const minmax = () => fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+        // const minmax = () => fetch(`http://localhost:5000/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
                                 .then(res => res.json())
 
         Promise.all([lssq(), minmax()]).then(data => {
@@ -84,7 +121,10 @@ export default class App extends React.Component {
             })
             result.output = data
             this.saveToFire(result)
-        })
+        }).catch(e => {
+                console.error(`Something went wrong!\n ${e}`)
+                this.setState({loaderActive: false})
+            })
     }
 
     clickCalcLSHandler = (func, start, end, deg, precision, points) => {
@@ -97,6 +137,7 @@ export default class App extends React.Component {
         }
         this.setState({loaderActive: true});
         fetch('https://least-squares.herokuapp.com/least_squares', {
+        // fetch('http://localhost:5000/least_squares', {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|${points}`
         }).then(res => res.json())
@@ -104,6 +145,9 @@ export default class App extends React.Component {
                 this.setState({dataLS: res, loaderActive: false, precision})
                 result.output = res
                 this.saveToFire(result)
+            }).catch(e => {
+                console.error(`Something went wrong!\n ${e}`)
+                this.setState({loaderActive: false})
             })
     }
 
@@ -117,11 +161,15 @@ export default class App extends React.Component {
         }
         this.setState({loaderActive: true});
         fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+        // fetch(`http://localhost:5000/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
             .then(r => {
                 this.setState({data: toArr(r), loaderActive: false, precision});
                 result.output = r
                 this.saveToFire(result)
+            }).catch(e => {
+                console.error(`Something went wrong!\n ${e}`)
+                this.setState({loaderActive: false, errorMessage: true})
             })
     }
 
@@ -133,17 +181,20 @@ export default class App extends React.Component {
 
     render() {
         const style = {position: 'relative', top: '60px', marginBottom: '60px'};
+        // const style = {}
         let view;
         if (this.state.viewId === 1) {
             view = <div style={style}>
                     <Header title={'МНК'} onMenuChange={this.onMenuChange} />
                     <LS clickCalcHandler={this.clickCalcLSHandler}
+                        formData={formsStates.lssq}
                         data={this.state.dataLS} />
                 </div>
         } else if (this.state.viewId === 2) {
             view = <div style={style}>
                 <Header title={'Мінімакс'} onMenuChange={this.onMenuChange} />
                 <Minmax
+                    formData={formsStates.minmax}
                     clickCalcHandler={this.clickCalcMinmaxHandler}
                     data={this.state.data} precision={this.state.precision}
                 />
@@ -151,7 +202,7 @@ export default class App extends React.Component {
         } else if (this.state.viewId === 3) {
             view = <div style={style}>
                 <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
-                <Comparison clickCalcHandler={this.getMaxErrs} minmax={this.state.comparison.minmax} lssq={this.state.comparison.lssq} />
+                <Comparison formData={formsStates.comp} clickCalcHandler={this.getMaxErrs} minmax={this.state.comparison.minmax} lssq={this.state.comparison.lssq} />
             </div>
         } else if (this.state.viewId === 4) {
             view = <div  style={style}>
@@ -165,6 +216,7 @@ export default class App extends React.Component {
                 <div style={{width: '60vw', margin: 'auto'}}>
                     {view}
                     <Loader active={this.state.loaderActive} />
+                    <ErrorMessage open={this.state.errorMessage} />
                 </div>
             </MuiThemeProvider>
         );

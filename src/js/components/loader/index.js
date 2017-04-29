@@ -3,14 +3,6 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import styles from './loader.scss';
 
-const propTypes = {
-  active: PropTypes.bool
-};
-
-const defaultProps = {
-  active: false
-};
-
 const Loader = ({ active }) => {
   return (
     <div class={active ? 'loader-wrapper' : 'hidden'}>
@@ -18,8 +10,5 @@ const Loader = ({ active }) => {
     </div>
   );
 };
-
-Loader.propTypes = propTypes;
-Loader.defaultProps = defaultProps;
 
 export default Loader;

@@ -1,20 +1,13 @@
 import React, { Component, PureComponent } from 'react';
 import { TextField, RaisedButton } from 'material-ui';
 
+
 class Form extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-                disabled: false,
-                func: 'ln(x)',
-                deg: 1,
-                start: 1,
-                end: 3,
-                presicion: 0.01,
-                points: 10
-        };
     }
+
     
     render() {
         return (
@@ -22,49 +15,49 @@ class Form extends PureComponent {
                 <TextField
                     floatingLabelText="Функція, яку апроксимуємо"
                     type="text"
-                    defaultValue={this.state.func}
-                    onChange={(e) => this.setState({func: e.target.value})}
+                    defaultValue={this.props.formData.func}
+                    onChange={(e) => this.props.formData.func = e.target.value}
                 />
 
                 <TextField
                     floatingLabelText="Степінь многочлена"
                     type="number"
-                    defaultValue={this.state.deg}
-                    onChange={(e) => this.setState({deg: e.target.value})}
+                    defaultValue={this.props.formData.deg}
+                    onChange={(e) => this.props.formData.deg = e.target.value}
                 />
 
                 <TextField
                     floatingLabelText="Початок інтервалу"
                     type="number"
-                    defaultValue={this.state.start}
-                    onChange={(e) => this.setState({start: e.target.value})}
+                    defaultValue={this.props.formData.start}
+                    onChange={(e) => this.props.formData.start = e.target.value}
                 />
 
                 <TextField
                     floatingLabelText="Кінець інтервалу"
                     type="number"
-                    defaultValue={this.state.end}
-                    onChange={(e) => this.setState({end: e.target.value})}
+                    defaultValue={this.props.formData.end}
+                    onChange={(e) => this.props.formData.end = e.target.value}
                 />
 
                 {this.props.minmax && <TextField
                     floatingLabelText="Точність"
                     type="number"
-                    defaultValue={this.state.presicion}
-                    onChange={(e) => this.setState({presicion: e.target.value})}
+                    defaultValue={this.props.formData.presicion}
+                    onChange={(e) => this.props.formData.percision = e.target.value}
                 />}
 
                 {this.props.lssq && <TextField
                     floatingLabelText="Точки розбиття"
                     type="number"
-                    defaultValue={this.state.points}
-                    onChange={(e) => this.setState({points: e.target.value})}
+                    defaultValue={this.props.formData.points}
+                    onChange={(e) => this.props.formData.points = e.target.value}
                 />}
 
                  <RaisedButton label="Обчислити"
                     primary={true}
-                    disabled={this.state.disabled}
-                    onClick={() => this.props.onCalcClick(this.state.func, this.state.start, this.state.end, this.state.deg, this.state.presicion, this.state.points)}
+                    disabled={this.props.formData.disabled}
+                    onClick={() => this.props.onCalcClick(this.props.formData.func, this.props.formData.start, this.props.formData.end, this.props.formData.deg, this.props.formData.presicion, this.props.formData.points)}
                 />
 
             </div>
