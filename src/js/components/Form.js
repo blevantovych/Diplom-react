@@ -8,7 +8,6 @@ class Form extends PureComponent {
         super(props);
     }
 
-    
     render() {
         return (
             <div class="form">

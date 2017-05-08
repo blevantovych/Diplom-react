@@ -69,16 +69,16 @@ export default class Iteration extends React.Component {
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>{this.props.isLast ? 'Алгоритм закінчено бо ' : 'Продовжуємо алгоритм бо '}</TableRowColumn>
-                                    <TableRowColumn>{this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} {this.props.precision}</TableRowColumn>
+                                    <TableRowColumn>{this.props.data.err_diff && this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} {this.props.precision}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>Аналітичний вигляд многочлена</TableRowColumn>
                                     <TableRowColumn><Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                 </TableRow>
-                                <TableRow>
+                                {/*<TableRow>
                                     <TableRowColumn>For desmos</TableRowColumn>
                                     <TableRowColumn>{this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}</TableRowColumn>
-                                </TableRow>
+                                </TableRow>*/}
                             </TableBody>
                         </Table>
                         <Plot
@@ -96,8 +96,8 @@ export default class Iteration extends React.Component {
                             id={this.props.ctn+1 + 'polynom'}
                             title={'Функція і наближення многочленом'}
                             plotData={[
-                                {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "f(x)"},
-                                {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "p(x)"}
+                                {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "p(x)"},
+                                {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "f(x)"}
                             ]}
                         />
                     </Card>

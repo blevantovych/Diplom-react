@@ -21,6 +21,7 @@ const Menu = (props) => (
         <MenuItem primaryText="Мінімакс" onTouchTap={() => props.onMenuChange(2)} />
         <MenuItem primaryText="Порівняти Мінімакс і МНК" onTouchTap={() => props.onMenuChange(3)} />
         <MenuItem primaryText="Історія" onTouchTap={() => props.onMenuChange(4)} />
+        <MenuItem primaryText="МНК (дискретна функція)" onTouchTap={() => props.onMenuChange(5)} />
     </IconMenu>
 );
 

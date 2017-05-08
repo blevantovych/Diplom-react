@@ -3,8 +3,9 @@ import Rebase from 're-base';
 
 import Header from './Header';
 import Loader from './loader';
-import ErrorMessage from './ErrorMessage'
+// import ErrorMessage from './ErrorMessage'
 import LS from './LS';
+import LS_Discrete from './LS_Discrete';
 import Minmax from './Minmax';
 import Comparison from './Comparison';
 import History from './History';
@@ -15,9 +16,15 @@ import './main.scss';
 
 import toArr from '../helpers/toArr';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router'
 
 const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
+const LOCAL = true;
+const MINMAX_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
+const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
+const LSSQ_URL = LOCAL ? 'http://localhost:5000/least_squares?' : 'https://least-squares.herokuapp.com/least_squares?'
+const LSSQ_DISCRETE_URL = LOCAL ? 'http://localhost:5000/least_squares_discrete?' : 'https://least-squares.herokuapp.com/least_squares_discrete?'
 
 let formsStates = {
     minmax: {
@@ -38,6 +45,12 @@ let formsStates = {
         presicion: 0.01,
         points: 10
     },
+    lssq_discrete: {
+        disabled: false,
+        x_vals: '',
+        y_vals: '',
+        deg: 1
+    },
     comp: {
         disabled: false,
         func: 'ln(x)',
@@ -57,9 +70,10 @@ export default class App extends React.Component {
             isMinmax: true,
             isLssq: false,
             loaderActive: false,
-            errorMessage: false,
+            // errorMessage: false,
             data: [],
-            dataLs: [],
+            dataLS: null,
+            dataLS_discrete: null,
             viewId: 2,
             comparison: {
                 lssq: {
@@ -84,8 +98,6 @@ export default class App extends React.Component {
         injectTapEventPlugin();
     }
 
-    
-
     saveToFire = (data) => {
         base.post('history', {
             data: this.state.history.concat([data])
@@ -98,17 +110,16 @@ export default class App extends React.Component {
             id: `${func}|${start}|${end}|${deg}|${precision}|${points}`,
             inputData: {
                 func, start, end, deg, points, precision
-            }
+            },
+            date: Date.now()
         }
         this.setState({loaderActive: true});
-        const lssq = () => fetch('https://least-squares.herokuapp.com/least_squares', {
-        // const lssq = () => fetch('http://localhost:5000/least_squares', {
+        const lssq = () => fetch(LSSQ_URL, {
             method: 'POST',
-            body: `${func}|${deg}|${start}|${end}|10|4`
+            body: `${func}|${deg}|${start}|${end}|${points}|4`
         }).then(res => res.json())
 
-        const minmax = () => fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
-        // const minmax = () => fetch(`http://localhost:5000/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+        const minmax = () => fetch(`${MINMAX_URL}func=${encodeURIComponent(func)}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
                                 .then(res => res.json())
 
         Promise.all([lssq(), minmax()]).then(data => {
@@ -133,11 +144,11 @@ export default class App extends React.Component {
             id: `${func}|${start}|${end}|${deg}|${points}`,
             inputData: {
                 func, start, end, deg, points
-            }
+            },
+            date: Date.now()
         }
         this.setState({loaderActive: true});
-        fetch('https://least-squares.herokuapp.com/least_squares', {
-        // fetch('http://localhost:5000/least_squares', {
+        fetch(LSSQ_URL, {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|${points}`
         }).then(res => res.json())
@@ -150,6 +161,25 @@ export default class App extends React.Component {
                 this.setState({loaderActive: false})
             })
     }
+    
+    clickCalcLS_DiscreteHandler = (x_vals, y_vals, deg) => {
+        let result = {
+            type: 'lssq_discrete',
+            inputData: {
+                x_vals, y_vals, deg
+            },
+            date: Date.now()
+        }
+        // this.setState({loaderActive: true});
+
+        fetch(LSSQ_DISCRETE_URL, {
+            method: 'POST',
+            body: JSON.stringify({x_vals, y_vals, deg})
+        }).then(r => r.json()).then(res => {
+            console.log(res);
+            this.setState({dataLS_discrete: res, loaderActive: false})
+        })
+    }
 
     clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
         let result = {
@@ -157,11 +187,13 @@ export default class App extends React.Component {
             id: `${func}|${start}|${end}|${deg}|${precision}`,
             inputData: {
                 func, start, end, deg, precision
-            }
+            },
+            date: Date.now()
         }
+
         this.setState({loaderActive: true});
-        fetch(`https://min-max.herokuapp.com/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
-        // fetch(`http://localhost:5000/minmaxGET?func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+        console.log(`func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`);
+        fetch(`${MINMAX_URL}func=${encodeURIComponent(func)}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
             .then(r => {
                 this.setState({data: toArr(r), loaderActive: false, precision});
@@ -169,7 +201,7 @@ export default class App extends React.Component {
                 this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
-                this.setState({loaderActive: false, errorMessage: true})
+                this.setState({loaderActive: false})
             })
     }
 
@@ -181,7 +213,6 @@ export default class App extends React.Component {
 
     render() {
         const style = {position: 'relative', top: '60px', marginBottom: '60px'};
-        // const style = {}
         let view;
         if (this.state.viewId === 1) {
             view = <div style={style}>
@@ -209,6 +240,14 @@ export default class App extends React.Component {
                 <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
                 <History history={this.state.history}/>
             </div>  
+        } else if (this.state.viewId === 5) {
+            view = <div  style={style}>
+                <Header title={'МНК (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
+                <LS_Discrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}
+                        formData={formsStates.lssq_discrete}
+                        data={this.state.dataLS_discrete}
+                />
+            </div>  
         }
 
         return (
@@ -216,7 +255,7 @@ export default class App extends React.Component {
                 <div style={{width: '60vw', margin: 'auto'}}>
                     {view}
                     <Loader active={this.state.loaderActive} />
-                    <ErrorMessage open={this.state.errorMessage} />
+                    {/*<ErrorMessage open={this.state.errorMessage} />*/}
                 </div>
             </MuiThemeProvider>
         );
