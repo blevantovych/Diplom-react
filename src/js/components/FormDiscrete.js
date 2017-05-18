@@ -8,7 +8,8 @@ class Form extends PureComponent {
         super(props);
         this.state = {
             x_vals: '',
-            y_vals: ''
+            y_vals: '',
+            points: []
         }
     }
 
@@ -18,13 +19,23 @@ class Form extends PureComponent {
         reader.onload = () => {
             var data = reader.result
             let rows = data.split('\n')
-            this.setState({ x_vals: rows[0].split(/,\s?/g).join(' ')})
-            this.setState({ y_vals: rows[1].split(/,\s?/g).join(' ')})
+            let points = []
+            let x_vals = rows[0].split(/,\s?/g)
+            let y_vals = rows[1].split(/,\s?/g)
+            x_vals.forEach((val, i) => {
+                points.push({x: +val, y: +y_vals[i]})
+            })
+            this.setState({points, x_vals: x_vals.join(' '), y_vals: y_vals.join(' ')})
         }
         reader.readAsText(input.files[0])
     }
 
     render() {
+        let x_vals_tds = this.state.points.map(val => <td>{val.x}</td>)
+        let y_vals_tds = this.state.points.map(val => <td>{val.y}</td>)
+
+        console.log('X_vals_tds: ', x_vals_tds)
+        console.log('Y_vals_tds: ', y_vals_tds)
         return (
             <div class="form">
                 <TextField
@@ -68,6 +79,22 @@ class Form extends PureComponent {
                         this.props.onCalcClick(this.props.formData.x_vals, this.props.formData.y_vals, +this.props.formData.deg)
                     }}
                 />
+                {x_vals_tds.length > 1 && <table id="ls_disc_table">
+                    <tr>
+                        <td>X</td>
+                        {x_vals_tds}
+                        <RaisedButton
+                            label="Посортувати"
+                            onTouchTap={() => {
+                                console.log('sorting')
+                                this.setState({points: [...this.state.points].sort((p1, p2) => p1.x > p2.x ? 1 : -1)})
+                            }}></RaisedButton>
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        {y_vals_tds}
+                    </tr>
+                </table>}
 
             </div>
         );

@@ -22,7 +22,7 @@ class LS extends Component {
                                 <TableBody displayRowCheckbox={false}>
                                     <TableRow>
                                         <TableRowColumn>Аналітичний вигляд многочлена</TableRowColumn>
-                                        <TableRowColumn><Formula formula={this.props.data.formula}/></TableRowColumn>
+                                        <TableRowColumn><Formula formula={this.props.data.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                     </TableRow>
                                     <TableRow>
                                         <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp;</TableRowColumn>
