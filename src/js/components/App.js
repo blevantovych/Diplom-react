@@ -7,6 +7,7 @@ import Loader from './loader';
 import LS from './LS';
 import LS_Discrete from './LS_Discrete';
 import Minmax from './Minmax';
+import Minmax_Discrete from './Minmax_Discrete';
 import Comparison from './Comparison';
 import History from './History';
 
@@ -22,9 +23,9 @@ const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
 const LOCAL = true;
 const MINMAX_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
-const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
 const LSSQ_URL = LOCAL ? 'http://localhost:5000/least_squares?' : 'https://least-squares.herokuapp.com/least_squares?'
 const LSSQ_DISCRETE_URL = LOCAL ? 'http://localhost:5000/least_squares_discrete?' : 'https://least-squares.herokuapp.com/least_squares_discrete?'
+const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmax_discrete?' : 'https://least-squares.herokuapp.com/minmax_discrete?'
 
 let formsStates = {
     minmax: {
@@ -47,8 +48,7 @@ let formsStates = {
     },
     lssq_discrete: {
         disabled: false,
-        x_vals: '',
-        y_vals: '',
+        points: [],
         deg: 1
     },
     comp: {
@@ -59,7 +59,12 @@ let formsStates = {
         end: 3,
         presicion: 0.01,
         points: 10
-    }
+    },
+    minmax_discrete: {
+        disabled: false,
+        points: [],
+        deg: 1
+    },
 }
 
 export default class App extends React.Component {
@@ -74,7 +79,8 @@ export default class App extends React.Component {
             data: [],
             dataLS: null,
             dataLS_discrete: null,
-            viewId: 2,
+            dataMinmax_discrete: [],
+            viewId: 6,
             comparison: {
                 lssq: {
                     max_error: 0,
@@ -181,6 +187,24 @@ export default class App extends React.Component {
         })
     }
 
+    clickMinmax_DiscreteHandler = (x_vals, y_vals, deg) => {
+        let result = {
+            type: 'minmax_discrete',
+            inputData: {
+                x_vals, y_vals, deg
+            },
+            date: Date.now()
+        }
+
+        fetch(MINMAX_DISCRETE_URL, {
+            method: 'POST',
+            body: JSON.stringify({x_vals, y_vals, deg})
+        }).then(r => r.json()).then(res => {
+            console.log(toArr(res));
+            this.setState({dataMinmax_discrete: toArr(res), loaderActive: false})
+        })
+    }
+
     clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
         let result = {
             type: 'minmax',
@@ -247,6 +271,19 @@ export default class App extends React.Component {
                         formData={formsStates.lssq_discrete}
                         data={this.state.dataLS_discrete}
                 />
+            </div>  
+        } else if (this.state.viewId === 6) {
+            view = <div  style={style}>
+                <Header title={'Мінімакс (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
+                <Minmax_Discrete
+                    clickCalcHandler={this.clickMinmax_DiscreteHandler}
+                    formData={formsStates.minmax_discrete}
+                    data={this.state.dataMinmax_discrete}
+                 />
+                {/*<Minmax_Discrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}*/}
+                        {/*formData={formsStates.lssq_discrete}*/}
+                        {/*data={this.state.dataLS_discrete}*/}
+                {/*/>*/}
             </div>  
         }
 

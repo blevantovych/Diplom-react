@@ -34,7 +34,12 @@ body {
   border-collapse: collapse; border-spacing: 0; 
   
       
-  td, th {  border: 0 none; height: 30px; }
+  td, th {
+    border: 1 solid black!important;
+    height: 30px;
+    text-align: center;
+    padding: 10px;
+  }
         
   th {
     /* Gradient Background */
