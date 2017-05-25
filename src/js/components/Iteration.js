@@ -1,32 +1,29 @@
-import React from 'react';
-import Plot from './Plot';
-import Formula from './Formula';
+import React from 'react'
+import Plot from './Plot'
+import Formula from './Formula'
 
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
+import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 
-import truncateCoefs from '../helpers/truncateCoefs';
-
+import truncateCoefs from '../helpers/truncateCoefs'
 
 export default class Iteration extends React.Component {
+
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             expanded: false
-        };
+        }
     }
 
     handleExpandChange = (expanded) => {
-        console.log('handleExpandChange');
-        this.setState({expanded: expanded});
-    };
+        this.setState({expanded: expanded})
+    }
 
     render() {
 
         const alt = this.props.data.alternance.map((el, i) => {
-            return <TableRowColumn key={i}>{el.toFixed(7)}</TableRowColumn>
+            return <TableRowColumn key={i}>{el.toFixed(7).replace(/0+$/, '0')}</TableRowColumn>
         })
         alt.unshift(<TableRowColumn><h4>Точка альтернансу</h4></TableRowColumn>)
 
@@ -37,7 +34,11 @@ export default class Iteration extends React.Component {
 
         return (
             <div>
-                <Card style={{margin: '20px 0'}} expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+                <Card
+                    style={{margin: '20px 0'}}
+                    expanded={this.state.expanded}
+                    onExpandChange={this.handleExpandChange}
+                >
                     <CardHeader
                         title={'Ітерація ' + (this.props.ctn+1)}
                         actAsExpander={true}
@@ -64,7 +65,7 @@ export default class Iteration extends React.Component {
                                     <TableRowColumn>{this.props.data.max_err.toFixed(7)}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
-                                    <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp;</TableRowColumn>
+                                    <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp</TableRowColumn>
                                     <TableRowColumn>{this.props.data.x_of_max_err.toFixed(7)}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
@@ -103,7 +104,7 @@ export default class Iteration extends React.Component {
                     </Card>
                 }
             </div>
-        );
+        )
     }
 }
 

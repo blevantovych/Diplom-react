@@ -1,26 +1,23 @@
-import React, { Component, PureComponent } from 'react';
-import toArr from '../helpers/toArr';
-import Form from './Form';
-import truncateCoefs from '../helpers/truncateCoefs';
+import React, { Component, PureComponent } from 'react'
+import Form from './Form'
+import truncateCoefs from '../helpers/truncateCoefs'
 
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
-import { Card, CardText } from 'material-ui/Card';
-import Loader from './loader';
-import Plot from './Plot';
-import Formula from './Formula';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import { Card, CardText } from 'material-ui/Card'
+// import Loader from './loader' make loader independent from view
+import Plot from './Plot'
+import Formula from './Formula'
 
 if (!Array.prototype.last){
     Array.prototype.last = function(){
-        return this[this.length - 1];
-    };
-};
+        return this[this.length - 1]
+    }
+}
 
 class Comparison extends PureComponent {
     constructor(props) {
-        super(props);
+        super(props)
     }
-
-    
 
     render() {
 
@@ -76,8 +73,8 @@ class Comparison extends PureComponent {
                     </Card>
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default Comparison;
+export default Comparison

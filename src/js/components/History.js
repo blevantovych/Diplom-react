@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
-
+import React, { Component } from 'react'
 import Formula from './Formula'
-import { Card, CardText } from 'material-ui/Card';
-
+import { Card, CardText } from 'material-ui/Card'
 
 class History extends Component {
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     render() {
@@ -24,8 +22,8 @@ class History extends Component {
             <div>
                 {history}
             </div>
-        );
+        )
     }
 }
 
-export default History;
+export default History

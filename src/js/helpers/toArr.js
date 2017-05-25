@@ -3,7 +3,7 @@ function toArr(obj) {
     for (let i in obj) {
         arr.push(obj[i])
     }
-    return arr;
+    return arr
 }
 
-export default toArr;
+export default toArr

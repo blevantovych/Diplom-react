@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Snackbar from 'material-ui/Snackbar';
+import React, { Component } from 'react'
+import Snackbar from 'material-ui/Snackbar'
 
 class ErrorMessage extends Component {
     render() {
@@ -12,8 +12,8 @@ class ErrorMessage extends Component {
                     onRequestClose={this.props.handleClose}
                 />
             </div>
-        );
+        )
     }
 }
 
-export default ErrorMessage;
+export default ErrorMessage

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 import IterationMinmaxDiscrete from './IterationMinmaxDiscrete'
 
 export default class IterationListDiscreteMinmax extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     render() {
@@ -14,7 +14,7 @@ export default class IterationListDiscreteMinmax extends React.Component {
             <div>
                 {iters}
             </div>
-        );
+        )
     }
 }
 

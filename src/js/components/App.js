@@ -1,75 +1,35 @@
-import React from 'react';
-import Rebase from 're-base';
+import React from 'react'
+import Rebase from 're-base'
 
-import Header from './Header';
-import Loader from './loader';
-// import ErrorMessage from './ErrorMessage'
-import LS from './LS';
-import LS_Discrete from './LS_Discrete';
-import Minmax from './Minmax';
-import Minmax_Discrete from './Minmax_Discrete';
-import Comparison from './Comparison';
-import History from './History';
+import Header from './Header'
+import Loader from './loader'
+import LS from './LS'
+import LS_Discrete from './LS_Discrete'
+import Minmax from './Minmax'
+import Minmax_Discrete from './Minmax_Discrete'
+import Comparison from './Comparison'
+import ComparisonDiscrete from './ComparisonDiscrete'
+import History from './History'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import './main.scss'
 
+import toArr from '../helpers/toArr'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import './main.scss';
-
-import toArr from '../helpers/toArr';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 'react-router'
+import formsStates from './formsStates'
 
 const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
-const LOCAL = true;
+const LOCAL = true
 const MINMAX_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
-const LSSQ_URL = LOCAL ? 'http://localhost:5000/least_squares?' : 'https://least-squares.herokuapp.com/least_squares?'
-const LSSQ_DISCRETE_URL = LOCAL ? 'http://localhost:5000/least_squares_discrete?' : 'https://least-squares.herokuapp.com/least_squares_discrete?'
-const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmax_discrete?' : 'https://least-squares.herokuapp.com/minmax_discrete?'
+const LSSQ_URL = LOCAL ? 'http://localhost:5000/least_squares?' : 'https://min-max.herokuapp.com/least_squares?'
+const LSSQ_DISCRETE_URL = LOCAL ? 'http://localhost:5000/least_squares_discrete?' : 'https://min-max.herokuapp.com/least_squares_discrete?'
+const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmax_discrete?' : 'https://min-max.herokuapp.com/minmax_discrete?'
 
-let formsStates = {
-    minmax: {
-        disabled: false,
-        func: 'ln(x)',
-        deg: 1,
-        start: 1,
-        end: 3,
-        presicion: 0.01,
-        points: 10
-    },
-    lssq: {
-        disabled: false,
-        func: 'ln(x)',
-        deg: 1,
-        start: 1,
-        end: 3,
-        presicion: 0.01,
-        points: 10
-    },
-    lssq_discrete: {
-        disabled: false,
-        points: [],
-        deg: 1
-    },
-    comp: {
-        disabled: false,
-        func: 'ln(x)',
-        deg: 1,
-        start: 1,
-        end: 3,
-        presicion: 0.01,
-        points: 10
-    },
-    minmax_discrete: {
-        disabled: false,
-        points: [],
-        deg: 1
-    },
-}
 
 export default class App extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             history: [],
             isMinmax: true,
@@ -80,6 +40,8 @@ export default class App extends React.Component {
             dataLS: null,
             dataLS_discrete: null,
             dataMinmax_discrete: [],
+            dataCompareMinmaxDiscrete: null,
+            dataCompareLssqDiscrete: null,
             viewId: 6,
             comparison: {
                 lssq: {
@@ -95,13 +57,13 @@ export default class App extends React.Component {
                     polynom_latex: ''
                 }
             }
-        };
+        }
          this.ref = base.bindToState('history', {
             context: this,
             asArray: true,
             state: 'history'
-        });
-        injectTapEventPlugin();
+        })
+        injectTapEventPlugin()
     }
 
     saveToFire = (data) => {
@@ -119,7 +81,7 @@ export default class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true});
+        this.setState({loaderActive: true})
         const lssq = () => fetch(LSSQ_URL, {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|${points}|4`
@@ -153,7 +115,7 @@ export default class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true});
+        this.setState({loaderActive: true})
         fetch(LSSQ_URL, {
             method: 'POST',
             body: `${func}|${deg}|${start}|${end}|${points}`
@@ -176,13 +138,14 @@ export default class App extends React.Component {
             },
             date: Date.now()
         }
-        // this.setState({loaderActive: true});
+        this.setState({loaderActive: true})
 
         fetch(LSSQ_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
-            console.log(res);
+            result.output = res
+            this.saveToFire(result)
             this.setState({dataLS_discrete: res, loaderActive: false})
         })
     }
@@ -195,12 +158,14 @@ export default class App extends React.Component {
             },
             date: Date.now()
         }
+        this.setState({loaderActive: true})
 
         fetch(MINMAX_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
-            console.log(toArr(res));
+            result.output = res
+            this.saveToFire(result)
             this.setState({dataMinmax_discrete: toArr(res), loaderActive: false})
         })
     }
@@ -215,12 +180,12 @@ export default class App extends React.Component {
             date: Date.now()
         }
 
-        this.setState({loaderActive: true});
-        console.log(`func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`);
+        this.setState({loaderActive: true})
+        console.log(`func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
         fetch(`${MINMAX_URL}func=${encodeURIComponent(func)}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
             .then(r => r.json())
             .then(r => {
-                this.setState({data: toArr(r), loaderActive: false, precision});
+                this.setState({data: toArr(r), loaderActive: false, precision})
                 result.output = r
                 this.saveToFire(result)
             }).catch(e => {
@@ -229,15 +194,46 @@ export default class App extends React.Component {
             })
     }
 
+    clickDiscreteCompare = (x_vals, y_vals, deg) => {
+        let result = {
+            type: 'comp_discrete',
+            inputData: {
+                x_vals, y_vals, deg
+            },
+            date: Date.now()
+        }
+        const lssqDiscrete = fetch(LSSQ_DISCRETE_URL, {
+            method: 'POST',
+            body: JSON.stringify({x_vals, y_vals, deg})
+        }).then(r => r.json())
+
+        const minmaxDiscrete = fetch(MINMAX_DISCRETE_URL, {
+            method: 'POST',
+            body: JSON.stringify({x_vals, y_vals, deg})
+        }).then(r => r.json())
+        this.setState({loaderActive: true})
+
+        Promise.all([lssqDiscrete, minmaxDiscrete]).then(data => {
+            console.log(data)
+            this.setState({
+                dataCompareMinmaxDiscrete: toArr(data[1]),
+                dataCompareLssqDiscrete: data[0],
+                loaderActive: false
+            })
+            result.output = data
+            this.saveToFire(result)
+        })
+    }
+
     onMenuChange = (id) => {
         this.setState({
             viewId: id
-        });
+        })
     }
 
     render() {
-        const style = {position: 'relative', top: '60px', marginBottom: '60px'};
-        let view;
+        const style = {position: 'relative', top: '60px', marginBottom: '60px'}
+        let view
         if (this.state.viewId === 1) {
             view = <div style={style}>
                     <Header title={'МНК'} onMenuChange={this.onMenuChange} />
@@ -280,10 +276,16 @@ export default class App extends React.Component {
                     formData={formsStates.minmax_discrete}
                     data={this.state.dataMinmax_discrete}
                  />
-                {/*<Minmax_Discrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}*/}
-                        {/*formData={formsStates.lssq_discrete}*/}
-                        {/*data={this.state.dataLS_discrete}*/}
-                {/*/>*/}
+            </div>  
+        } else if (this.state.viewId === 7) {
+            view = <div  style={style}>
+                <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} /> 
+                <ComparisonDiscrete
+                    clickCalcHandler={this.clickDiscreteCompare}
+                    formData={formsStates.compare_discrete}
+                    minmaxData={this.state.dataCompareMinmaxDiscrete}
+                    lssqData={this.state.dataCompareLssqDiscrete}
+                 />
             </div>  
         }
 
@@ -295,7 +297,7 @@ export default class App extends React.Component {
                     {/*<ErrorMessage open={this.state.errorMessage} />*/}
                 </div>
             </MuiThemeProvider>
-        );
+        )
     }
 }
 

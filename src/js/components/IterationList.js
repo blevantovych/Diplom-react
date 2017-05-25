@@ -1,9 +1,9 @@
-import React from 'react';
-import Iteration from './Iteration';
+import React from 'react'
+import Iteration from './Iteration'
 
 export default class IterationList extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     render() {
@@ -14,7 +14,7 @@ export default class IterationList extends React.Component {
             <div>
                 {iters}
             </div>
-        );
+        )
     }
 }
 

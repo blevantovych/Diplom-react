@@ -1,11 +1,10 @@
-import React, { Component, PureComponent } from 'react';
-import { TextField, RaisedButton } from 'material-ui';
-
+import React, { Component, PureComponent } from 'react'
+import { TextField, RaisedButton } from 'material-ui'
 
 class Form extends PureComponent {
 
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     render() {
@@ -56,12 +55,19 @@ class Form extends PureComponent {
                  <RaisedButton label="Обчислити"
                     primary={true}
                     disabled={this.props.formData.disabled}
-                    onClick={() => this.props.onCalcClick(this.props.formData.func, this.props.formData.start, this.props.formData.end, this.props.formData.deg, this.props.formData.presicion, this.props.formData.points)}
+                    onClick={() => this.props.onCalcClick(
+                        this.props.formData.func,
+                        this.props.formData.start,
+                        this.props.formData.end,
+                        this.props.formData.deg,
+                        this.props.formData.presicion,
+                        this.props.formData.points
+                    )}
                 />
 
             </div>
-        );
+        )
     }
 }
 
-export default Form;
+export default Form

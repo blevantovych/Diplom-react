@@ -1,5 +1,5 @@
-import MathJax from 'react-mathjax';
-import React from 'react';
+import MathJax from 'react-mathjax'
+import React from 'react'
 
 export default function(props) {
     return (
@@ -8,5 +8,5 @@ export default function(props) {
                 <MathJax.Node inline>{props.formula}</MathJax.Node>
             </MathJax.Context>
         </div>
-    );
+    )
 }
