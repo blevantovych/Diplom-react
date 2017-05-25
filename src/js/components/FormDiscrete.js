@@ -43,8 +43,28 @@ class Form extends PureComponent {
     }
     
     render() {
-        let x_vals_tds = this.state.points.map(val => <td><TextField value={val.x} onChange={(e) => {val.x = e.target.value this.forceUpdate()}} style={{width: '50px'}} /></td>)
-        let y_vals_tds = this.state.points.map(val => <td><TextField value={val.y} onChange={(e) => {val.y = e.target.value this.forceUpdate()}} style={{width: '50px'}} /></td>)
+        let x_vals_tds = this.state.points.map(val => 
+        <td>
+            <TextField
+                value={val.x}
+                onChange={(e) => {
+                    val.x = e.target.value
+                    this.forceUpdate()
+                }}
+                style={{width: '50px'}}
+            />
+        </td>)
+        let y_vals_tds = this.state.points.map(val =>
+            <td>
+                <TextField
+                    value={val.y}
+                    onChange={(e) => {
+                        val.y = e.target.value
+                        this.forceUpdate()
+                    }}
+                    style={{width: '50px'}}
+                />
+            </td>)
 
         return (
             <div class="form">
@@ -63,8 +83,14 @@ class Form extends PureComponent {
                         <RaisedButton
                             label="Посортувати"
                             onTouchTap={() => {
-                                this.setState({points: [...this.state.points].sort((p1, p2) => p1.x > p2.x ? 1 : -1)})
-                            }}></RaisedButton>
+                                this.setState({
+                                    points: [...this.state.points].sort((p1, p2) => {
+                                        return p1.x > p2.x ? 1 : -1
+                                    })
+                            })
+                        }}
+                        >
+                        </RaisedButton>
                     </tr>
                     <tr>
                         <td>Y</td>
@@ -72,7 +98,9 @@ class Form extends PureComponent {
                          <RaisedButton label="Додати точку"
                             secondary={true}
                             containerElement="label"
-                            onTouchTap={() => this.setState({points: [...this.state.points, {x: 0, y: 0}]})}
+                            onTouchTap={() => this.setState({
+                                points:[...this.state.points, {x: 0, y: 0}]}
+                            )}
                         />
                     </tr>
                 </table>}
@@ -82,7 +110,7 @@ class Form extends PureComponent {
                     secondary={true}
                     containerElement="label"
                 ><input
-                    style={{"cursor":"pointer","position":"absolute","top":"0","bottom":"0","right":"0","left":"0","width":"100%","opacity":"0"}}
+                    class="file_input"
                     type="file"
                     onChange={this.onFileUpload} />
                 </RaisedButton>
@@ -96,7 +124,6 @@ class Form extends PureComponent {
                         this.props.onCalcClick(xs, ys, +this.props.formData.deg)
                     }}
                 />
-
             </div>
         )
     }
