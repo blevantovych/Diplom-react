@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import IterationList from './IterationList';
-import FormDiscrete from './FormDiscrete';
-import Plot from './Plot';
+import IterationList from './IterationList'
+import FormDiscrete from './FormDiscrete'
+import Plot from './Plot'
 
-import truncateCoefs from '../helpers/truncateCoefs';
-import Formula from './Formula';
+import truncateCoefs from '../helpers/truncateCoefs'
+import Formula from './Formula'
 
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
-import { Card, CardText } from 'material-ui/Card';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import { Card, CardText } from 'material-ui/Card'
 
 class LS extends Component {
     render() {
@@ -47,8 +47,8 @@ class LS extends Component {
                     </Card>
                 }
             </div>
-        );
+        )
     }
 }
 
-export default LS;
+export default LS

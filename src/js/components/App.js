@@ -4,7 +4,7 @@ import Rebase from 're-base'
 import Header from './Header'
 import Loader from './loader'
 import LS from './LS'
-import LS_Discrete from './LS_Discrete'
+import LSDiscrete from './LSDiscrete'
 import Minmax from './Minmax'
 import Minmax_Discrete from './Minmax_Discrete'
 import Comparison from './Comparison'
@@ -20,14 +20,9 @@ import formsStates from './formsStates'
 
 const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
-const LOCAL = true
-const MINMAX_URL = LOCAL ? 'http://localhost:5000/minmaxGET?' : 'https://min-max.herokuapp.com/minmaxGET?'
-const LSSQ_URL = LOCAL ? 'http://localhost:5000/least_squares?' : 'https://min-max.herokuapp.com/least_squares?'
-const LSSQ_DISCRETE_URL = LOCAL ? 'http://localhost:5000/least_squares_discrete?' : 'https://min-max.herokuapp.com/least_squares_discrete?'
-const MINMAX_DISCRETE_URL = LOCAL ? 'http://localhost:5000/minmax_discrete?' : 'https://min-max.herokuapp.com/minmax_discrete?'
+import { MINMAX_URL, LSSQ_URL, LSSQ_DISCRETE_URL, MINMAX_DISCRETE_URL } from './URLS'
 
-
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -263,7 +258,7 @@ export default class App extends React.Component {
         } else if (this.state.viewId === 5) {
             view = <div  style={style}>
                 <Header title={'МНК (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
-                <LS_Discrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}
+                <LSDiscrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}
                         formData={formsStates.lssq_discrete}
                         data={this.state.dataLS_discrete}
                 />
@@ -301,3 +296,4 @@ export default class App extends React.Component {
     }
 }
 
+export default App
