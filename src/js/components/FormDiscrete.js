@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from 'react'
 import { TextField, RaisedButton } from 'material-ui'
+import chunk from 'lodash.chunk'
 
 class Form extends PureComponent {
 
@@ -43,6 +44,24 @@ class Form extends PureComponent {
     }
     
     render() {
+        let sortButton = <RaisedButton
+                            label="Посортувати"
+                            onTouchTap={() => {
+                                this.setState({
+                                    points: [...this.state.points].sort((p1, p2) => {
+                                        return p1.x > p2.x ? 1 : -1
+                                    })
+                                })
+                            }}
+                        />
+        let addButton = <RaisedButton label="Додати точку"
+                            secondary={true}
+                            containerElement="label"
+                            onTouchTap={() => this.setState({
+                                points:[...this.state.points, {x: 0, y: 0}]}
+                            )}
+                        />
+
         let x_vals_tds = this.state.points.map(val => 
         <td>
             <TextField
@@ -66,6 +85,34 @@ class Form extends PureComponent {
                 />
             </td>)
 
+        x_vals_tds.push(sortButton)
+        y_vals_tds.push(addButton)
+        let separateXTds = chunk(x_vals_tds, 10)
+        let separateYTds = chunk(y_vals_tds, 10)
+        console.log('separateXTds length')
+        console.log(separateXTds.length)
+
+        let tables = separateXTds.map((xTds, i) =>
+            <div>
+                <table class="discrete_table">
+                    <tr>
+                        <td>X</td>
+                        {xTds}
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        {separateYTds[i]}
+                    </tr>
+                </table>
+                <br />
+            </div>
+        )
+
+        console.log('\n\n')
+        console.log('Chunk\n chunk([1,2,3,4,5], 2)')
+        console.log(chunk([1,2,3,4,5], 2))
+        console.log('\n\n')
+
         return (
             <div class="form">
 
@@ -75,8 +122,10 @@ class Form extends PureComponent {
                     defaultValue={this.props.formData.deg}
                     onChange={(e) => this.props.formData.deg = e.target.value}
                 />
+                {tables}
+                {/*{x_vals_tds.length > 0 && {tables}}*/}
 
-                {x_vals_tds.length > 0 && <table id="ls_disc_table">
+                {/*{x_vals_tds.length > 0 && <table id="ls_disc_table">
                     <tr>
                         <td>X</td>
                         {x_vals_tds}
@@ -91,8 +140,8 @@ class Form extends PureComponent {
                         }}
                         >
                         </RaisedButton>
-                    </tr>
-                    <tr>
+                    </tr>*/}
+                    {/*<tr>
                         <td>Y</td>
                         {y_vals_tds}
                          <RaisedButton label="Додати точку"
@@ -103,7 +152,7 @@ class Form extends PureComponent {
                             )}
                         />
                     </tr>
-                </table>}
+                </table>}*/}
                 <br/> 
                 
                 <RaisedButton label="Завантажити CSV"

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import FormDiscrete from './FormDiscrete'
-import toArr from '../helpers/toArr'
 import truncateCoefs from '../helpers/truncateCoefs'
 
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
