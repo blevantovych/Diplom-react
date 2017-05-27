@@ -37,7 +37,7 @@ class App extends React.Component {
             dataMinmax_discrete: [],
             dataCompareMinmaxDiscrete: null,
             dataCompareLssqDiscrete: null,
-            viewId: 6,
+            viewId: 7,
             comparison: {
                 lssq: {
                     max_error: 0,
@@ -297,3 +297,4 @@ class App extends React.Component {
 }
 
 export default App
+

@@ -51,6 +51,7 @@ body {
     background: #FAFAFA;
     text-align: center;
     margin: 5px;
+    position: relative;
   }
 
   /* Zebra Stripe Rows */
@@ -88,4 +89,23 @@ body {
   left: 0;
   width: 100%;
   opacity: 0;
+}
+
+.delete_td_popup {
+  display: none;
+}
+
+.discrete_table td:hover {
+  & .delete_td_popup {
+    display: inline-block;
+    width: 20px;
+    position: absolute;
+    left: 40px;
+    top: -5px;
+    height: 20px;
+    background: 'red';
+    border: 1px solid black;
+    cursor: pointer;
+    color: red;
+  }
 }
