@@ -62,8 +62,9 @@ class Comparison extends PureComponent {
                                         <TableRowColumn><Formula formula={this.props.lssq.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
 
                                     </TableRow>
+                                    
                                     <TableRow>
-                                        <TableRowColumn width={'20%'}>Графіки</TableRowColumn>
+                                        s<TableRowColumn width={'20%'}>Графіки</TableRowColumn>
                                         <TableRowColumn>{mmPlot}</TableRowColumn>
                                         <TableRowColumn>{lsPlot}</TableRowColumn>
                                     </TableRow>
