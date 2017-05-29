@@ -68,7 +68,7 @@ export default class IterationMinmaxDiscrete extends React.Component {
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>
-                                        Значення <i>x</i> в якому досягається максимальна похибка &nbsp
+                                        Значення <i>x</i> в якому досягається максимальна похибка
                                     </TableRowColumn>
                                     <TableRowColumn>{this.props.data.x_error.toFixed(7)}</TableRowColumn>
                                 </TableRow>

@@ -109,3 +109,18 @@ body {
     color: red;
   }
 }
+
+.upload_btns {
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
+  margin: 10px;
+
+  .icon {
+    position: relative;
+    top: 5px;
+    width: 26px;
+    height: 26px;
+    color: white;
+  }
+}

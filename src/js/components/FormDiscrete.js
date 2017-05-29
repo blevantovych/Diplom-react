@@ -17,8 +17,8 @@ function to_json(workbook) {
     return result
 }
 
-
-
+const csvIcon = <img class="icon icons8-CSV" width="26" height="26" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABwUlEQVRIS82WgVHDMAxF2wmACQgTABMQJgAmoGwAEzACMAEZASYgTABMQNgAJoD/chbnunLSlBTQ3b+6sqwv2bKc6cSXQuorYU9g3CWNJi+Euy6jqTOJ4ydhs4cgnb4OhO4yj4jIjoRHYSYQcU5KTTxEk5XGZ56xR/Quww1hp4fE/H0mjl0yj8gWenNesCkRNgtk6yKC7EY4t8jWSQTHidBW4xhEz/Kzm6kWComzHoXI44irsU1mjIwyyUzmiupXibr22KJ902A7F3rQ42c/slnIyBQfMjoW6mhhkeg4XKqIssUxbQqbSjhNjiJLROvACc0UmQm0oTI4YiE6yKgkehsCKToyjo8iS4QRi4wIJ+aUyCuBHohARGc3G5owsjIRi2uBZ4CtYnwQ/kOMENzlEKLD4My2hD2nCHBOo8UhztHfC5wnEhfTUhmxgHPiF2kEtoQ2grBVPAn2TuG0EF7DPD+dRMuUNxkZQeR3bvgSgjHl313YNMKh71Euw/+TkT3lWwqV8SpiRULVMna7N92Bi1kLVGEzkAnHt0IpfF8Dr3tjSCXygfIToXdyJdpAcx8gkHFxMezr2mkwbBeBWg9s578AJCRzG57OQdMAAAAASUVORK5CYII=" />
+const excelIcon = <svg xmlns="http://www.w3.org/2000/svg" version="1.0" x="0px" y="0px" viewBox="0 0 24 24" class="icon icons8-Microsoft-Excel" > <path d="M 14 2 L 2 4 L 2 20 L 14 22 L 14 2 z M 15 4 L 15 7 L 17 7 L 17 8 L 15 8 L 15 10 L 17 10 L 17 11 L 15 11 L 15 13 L 17 13 L 17 14 L 15 14 L 15 16 L 17 16 L 17 17 L 15 17 L 15 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 15 4 z M 18 7 L 20 7 L 20 8 L 18 8 L 18 7 z M 4.21875 8 L 6.28125 8 L 7.34375 10.40625 C 7.43075 10.60125 7.4945 10.8055 7.5625 11.0625 L 7.59375 11.0625 C 7.63275 10.9085 7.72675 10.683 7.84375 10.375 L 9.03125 8 L 10.9375 8 L 8.6875 11.96875 L 11 16 L 8.96875 16 L 7.6875 13.40625 C 7.6385 13.31425 7.57925 13.10075 7.53125 12.84375 L 7.5 12.84375 C 7.471 12.96675 7.43175 13.15925 7.34375 13.40625 L 6.03125 16 L 4 16 L 6.40625 12 L 4.21875 8 z M 18 10 L 20 10 L 20 11 L 18 11 L 18 10 z M 18 13 L 20 13 L 20 14 L 18 14 L 18 13 z M 18 16 L 20 16 L 20 17 L 18 17 L 18 16 z"></path></svg>
 class Form extends PureComponent {
 
     constructor(props) {
@@ -27,6 +27,7 @@ class Form extends PureComponent {
             points: this.props.formData.points,
             excelTableHeaders: [],
             excelTableInJson: null,
+            showColumnChooser: false,
             X: '',
             Y: ''
         }
@@ -38,7 +39,8 @@ class Form extends PureComponent {
         console.log('Headers\n', headers)
         this.setState({
             excelTableHeaders: headers,
-            excelTableInJson
+            excelTableInJson,
+            showColumnChooser: true
         })
     }
 
@@ -75,7 +77,7 @@ class Form extends PureComponent {
                 })
             }
 
-            this.setState({points})
+            this.setState({points, showColumnChooser: false})
             this.props.formData.points = points
         }
         reader.readAsText(input.files[0])
@@ -176,71 +178,82 @@ class Form extends PureComponent {
                 {tables}
                 <br/> 
                 
-                <RaisedButton label="Завантажити CSV"
-                    secondary={true}
-                    containerElement="label"
-                ><input
-                    class="file_input"
-                    type="file"
-                    onChange={this.onFileUpload} />
-                </RaisedButton>
+                <div className="upload_btns">
+                    <RaisedButton
+                        label="Завантажити CSV"
+                        secondary={true}
+                        icon={<span>{csvIcon}</span>}
+                        containerElement="label"
+                    ><input
+                        class="file_input"
+                        type="file"
+                        onChange={this.onFileUpload} />
+                    </RaisedButton>
 
-                <RaisedButton label="Завантажити Excel"
-                    secondary={true}
-                    containerElement="label"
-                ><input
-                    class="file_input"
-                    type="file"
-                    onChange={this.onExcelUpload} />
-                </RaisedButton>
+                    <RaisedButton
+                        label="Завантажити Excel"
+                        labelPosition="before"
+                        icon={<span>{excelIcon}</span>}
+                        secondary={true}
+                        containerElement="label"
+                    ><input
+                        class="file_input"
+                        type="file"
+                        onChange={this.onExcelUpload} />
+                    </RaisedButton>
+                </div>
+                
+                <div style={{display: this.state.showColumnChooser ? 'block' : 'none'}}>
 
-                <SelectField
-                    value={this.state.X}
-                    floatingLabelText="X"
-                    floatingLabelFixed={true}
-                    hintText="X"
-                    onChange={(e, i, val) => {
-                        if (this.state.Y) {
-                            this.setState({
-                                points: this.state.excelTableInJson.map(r => 
-                                    ({x: r[val], y: r[this.state.Y]})),
-                                X: val
-                            })
-                        } else this.setState({X: val})
-                    }}
-                >
-                    {this.state.excelTableHeaders.map((h, i) => 
-                        <MenuItem
-                            key={i}
-                            value={h}
-                            primaryText={h}
-                        />,
-                    )}
-                </SelectField>
-                <SelectField
-                    value={this.state.Y}
-                    floatingLabelText="Y"
-                    floatingLabelFixed={true}
-                    hintText="Y"
+                
+                    <SelectField
+                        value={this.state.X}
+                        floatingLabelText="X"
+                        floatingLabelFixed={true}
+                        hintText="X"
+                        onChange={(e, i, val) => {
+                            if (this.state.Y) {
+                                this.setState({
+                                    points: this.state.excelTableInJson.map(r => 
+                                        ({x: r[val], y: r[this.state.Y]})),
+                                    X: val
+                                })
+                            } else this.setState({X: val})
+                        }}
+                    >
+                        {this.state.excelTableHeaders.map((h, i) => 
+                            <MenuItem
+                                key={i}
+                                value={h}
+                                primaryText={h}
+                            />,
+                        )}
+                    </SelectField>
+                    <SelectField
+                        value={this.state.Y}
+                        floatingLabelText="Y"
+                        floatingLabelFixed={true}
+                        hintText="Y"
 
-                    onChange={(e, i, val) => {
-                        if (this.state.X) {
-                            this.setState({
-                                points: this.state.excelTableInJson.map(r => 
-                                    ({x: r[this.state.X], y: r[val]})),
-                                Y: val
-                            })
-                        } else this.setState({Y: val})
-                    }}
-                >
-                    {this.state.excelTableHeaders.map((h, i) => 
-                        <MenuItem
-                            key={i}
-                            value={h}
-                            primaryText={h}
-                        />,
-                    )}
-                </SelectField>
+                        onChange={(e, i, val) => {
+                            if (this.state.X) {
+                                this.setState({
+                                    points: this.state.excelTableInJson.map(r => 
+                                        ({x: r[this.state.X], y: r[val]})),
+                                    Y: val
+                                })
+                            } else this.setState({Y: val})
+                        }}
+                    >
+                        {this.state.excelTableHeaders.map((h, i) => 
+                            <MenuItem
+                                key={i}
+                                value={h}
+                                primaryText={h}
+                            />,
+                        )}
+                    </SelectField>
+                </div>
 
                  <RaisedButton label="Обчислити"
                     primary={true}
