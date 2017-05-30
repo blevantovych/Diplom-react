@@ -34,6 +34,12 @@ const Menu = (props) => (
                 <MenuItem primaryText="Порівняти" onTouchTap={() => props.onMenuChange(3)} />,
             ]}
         />
+        <MenuItem
+            primaryText="Як користуватися (pdf)"
+            //onTouchTap={() => props.onMenuChange(8)}
+        >
+        <a id="download_desc_link" href="./program_description.pdf" download=""></a>
+        </MenuItem>
      
     </IconMenu>
 )
