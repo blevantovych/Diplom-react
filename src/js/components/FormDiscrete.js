@@ -203,56 +203,73 @@ class Form extends PureComponent {
                     </RaisedButton>
                 </div>
                 
-                <div style={{display: this.state.showColumnChooser ? 'block' : 'none'}}>
+                <div class="xy_chooser" style={{visibility: this.state.showColumnChooser ? 'visible' : 'hidden'}}>
 
-                
-                    <SelectField
-                        value={this.state.X}
-                        floatingLabelText="X"
-                        floatingLabelFixed={true}
-                        hintText="X"
-                        onChange={(e, i, val) => {
-                            if (this.state.Y) {
-                                this.setState({
-                                    points: this.state.excelTableInJson.map(r => 
-                                        ({x: r[val], y: r[this.state.Y]})),
-                                    X: val
-                                })
-                            } else this.setState({X: val})
-                        }}
-                    >
-                        {this.state.excelTableHeaders.map((h, i) => 
-                            <MenuItem
-                                key={i}
-                                value={h}
-                                primaryText={h}
-                            />,
-                        )}
-                    </SelectField>
-                    <SelectField
-                        value={this.state.Y}
-                        floatingLabelText="Y"
-                        floatingLabelFixed={true}
-                        hintText="Y"
+                    <div>
+                        <SelectField
+                            value={this.state.X}
+                            floatingLabelText="X"
+                            floatingLabelFixed={true}
+                            hintText="X"
+                            onChange={(e, i, val) => {
+                                if (this.state.Y) {
+                                    this.setState({
+                                        points: this.state.excelTableInJson.map(r => 
+                                            ({x: r[val], y: r[this.state.Y]})),
+                                        X: val
+                                    })
+                                } else this.setState({X: val})
+                            }}
+                        >
+                            {this.state.excelTableHeaders.map((h, i) => 
+                                <MenuItem
+                                    key={i}
+                                    value={h}
+                                    primaryText={h}
+                                />,
+                            )}
+                        </SelectField>
+                    </div>
 
-                        onChange={(e, i, val) => {
-                            if (this.state.X) {
+                    <div>
+                        <RaisedButton
+                            label='<=>'
+                            onTouchTap={() => {
                                 this.setState({
+                                    X: this.state.Y, Y: this.state.X,
                                     points: this.state.excelTableInJson.map(r => 
-                                        ({x: r[this.state.X], y: r[val]})),
-                                    Y: val
+                                        ({x: r[this.state.Y], y: r[this.state.X]})),
                                 })
-                            } else this.setState({Y: val})
-                        }}
-                    >
-                        {this.state.excelTableHeaders.map((h, i) => 
-                            <MenuItem
-                                key={i}
-                                value={h}
-                                primaryText={h}
-                            />,
-                        )}
-                    </SelectField>
+                            }}
+                        />
+                    </div>
+
+                    <div>
+                        <SelectField
+                            value={this.state.Y}
+                            floatingLabelText="Y"
+                            floatingLabelFixed={true}
+                            hintText="Y"
+
+                            onChange={(e, i, val) => {
+                                if (this.state.X) {
+                                    this.setState({
+                                        points: this.state.excelTableInJson.map(r => 
+                                            ({x: r[this.state.X], y: r[val]})),
+                                        Y: val
+                                    })
+                                } else this.setState({Y: val})
+                            }}
+                        >
+                            {this.state.excelTableHeaders.map((h, i) => 
+                                <MenuItem
+                                    key={i}
+                                    value={h}
+                                    primaryText={h}
+                                />,
+                            )}
+                        </SelectField>
+                    </div>
                 </div>
 
                  <RaisedButton label="Обчислити"
