@@ -45,6 +45,11 @@ class LS extends Component {
                                 {...this.props.data.max_error_line, name: 'Максимальна похибка'}
                             ]}
                         />
+                         <Plot id="ls_error" title='Функція похибки'
+                            plotData={[
+                                {...this.props.data.error_plot}
+                            ]}
+                        />
                     </Card>
                 }
             </div>
