@@ -7,6 +7,7 @@ import { Card, CardText } from 'material-ui/Card'
 // import Loader from './loader' make loader independent from view
 import Plot from './Plot'
 import Formula from './Formula'
+import range from 'lodash.range'
 
 if (!Array.prototype.last){
     Array.prototype.last = function(){
@@ -24,7 +25,8 @@ class Comparison extends PureComponent {
         const lsPlot = <Plot id="comp_ls_plot" legend={false}
                             plotData={[
                                 {x: this.props.lssq.x_approx, y: this.props.lssq.f_x_approx},
-                                {x: this.props.lssq.x_approx, y: this.props.lssq.approximation}
+                                {x: this.props.lssq.x_approx, y: this.props.lssq.approximation},
+                                {...this.props.lssq.max_error_line, line: {color: '#f00'}}
                             ]}
                         />
         const mmPlot = <Plot id="comp_mm_plot" legend={false}
@@ -60,11 +62,9 @@ class Comparison extends PureComponent {
                                         <TableRowColumn width={'20%'}>Аналітичний вигляд</TableRowColumn>
                                         <TableRowColumn><Formula formula={this.props.minmax.polynom_latex.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                         <TableRowColumn><Formula formula={this.props.lssq.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
-
-                                    </TableRow>
-                                    
+                                    </TableRow>   
                                     <TableRow>
-                                        s<TableRowColumn width={'20%'}>Графіки</TableRowColumn>
+                                        <TableRowColumn width={'20%'}>Графіки</TableRowColumn>
                                         <TableRowColumn>{mmPlot}</TableRowColumn>
                                         <TableRowColumn>{lsPlot}</TableRowColumn>
                                     </TableRow>

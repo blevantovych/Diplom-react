@@ -6,7 +6,7 @@ import Loader from './loader'
 import LS from './LS'
 import LSDiscrete from './LSDiscrete'
 import Minmax from './Minmax'
-import Minmax_Discrete from './Minmax_Discrete'
+import MinmaxDiscrete from './MinmaxDiscrete'
 import Comparison from './Comparison'
 import ComparisonDiscrete from './ComparisonDiscrete'
 import History from './History'
@@ -18,9 +18,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import formsStates from './formsStates'
 
-const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
-
 import { MINMAX_URL, LSSQ_URL, LSSQ_DISCRETE_URL, MINMAX_DISCRETE_URL } from './URLS'
+
+const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
 class App extends React.Component {
     constructor(props) {
@@ -77,13 +77,17 @@ class App extends React.Component {
             date: Date.now()
         }
         this.setState({loaderActive: true})
-        const lssq = () => fetch(LSSQ_URL, {
-            method: 'POST',
-            body: `${func}|${deg}|${start}|${end}|${points}|4`
-        }).then(res => res.json())
+        const lssq = () =>
+            fetch(LSSQ_URL, {
+                method: 'POST',
+                body: JSON.stringify({func, start, end, deg, points})
+            }).then(res => res.json())
 
-        const minmax = () => fetch(`${MINMAX_URL}func=${encodeURIComponent(func)}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
-                                .then(res => res.json())
+        const minmax = () =>
+            fetch(MINMAX_URL, {
+                method: 'POST',
+                body: JSON.stringify({func, start, end, deg, precision})
+            }).then(res => res.json())
 
         Promise.all([lssq(), minmax()]).then(data => {
             this.setState({
@@ -94,7 +98,7 @@ class App extends React.Component {
                 loaderActive: false
             })
             result.output = data
-            this.saveToFire(result)
+  //          this.saveToFire(result)
         }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -113,12 +117,14 @@ class App extends React.Component {
         this.setState({loaderActive: true})
         fetch(LSSQ_URL, {
             method: 'POST',
-            body: `${func}|${deg}|${start}|${end}|${points}`
+            body: JSON.stringify({
+                func, deg, start, end, points
+            })
         }).then(res => res.json())
             .then(res => {
                 this.setState({dataLS: res, loaderActive: false, precision})
                 result.output = res
-                this.saveToFire(result)
+//                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -140,7 +146,7 @@ class App extends React.Component {
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
             result.output = res
-            this.saveToFire(result)
+//            this.saveToFire(result)
             this.setState({dataLS_discrete: res, loaderActive: false})
         })
     }
@@ -160,7 +166,7 @@ class App extends React.Component {
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
             result.output = res
-            this.saveToFire(result)
+//            this.saveToFire(result)
             this.setState({dataMinmax_discrete: toArr(res), loaderActive: false})
         })
     }
@@ -176,13 +182,16 @@ class App extends React.Component {
         }
 
         this.setState({loaderActive: true})
-        console.log(`func=${func}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
-        fetch(`${MINMAX_URL}func=${encodeURIComponent(func)}&start=${start}&end=${end}&deg=${deg}&precision=${precision}`)
+
+        fetch(MINMAX_URL, {
+            method: 'POST',
+            body: JSON.stringify({func, start, end, deg, precision})
+        })
             .then(r => r.json())
             .then(r => {
                 this.setState({data: toArr(r), loaderActive: false, precision})
                 result.output = r
-                this.saveToFire(result)
+//                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -190,10 +199,17 @@ class App extends React.Component {
     }
 
     clickDiscreteCompare = (x_vals, y_vals, deg) => {
+        let points = x_vals.map((x, i) => ({
+            x,
+            y: y_vals[i]
+        }))
+        
+        console.log('Points')
+        console.log(points)
         let result = {
             type: 'comp_discrete',
             inputData: {
-                x_vals, y_vals, deg
+                points, deg
             },
             date: Date.now()
         }
@@ -209,15 +225,60 @@ class App extends React.Component {
         this.setState({loaderActive: true})
 
         Promise.all([lssqDiscrete, minmaxDiscrete]).then(data => {
-            console.log(data)
             this.setState({
                 dataCompareMinmaxDiscrete: toArr(data[1]),
                 dataCompareLssqDiscrete: data[0],
                 loaderActive: false
             })
             result.output = data
-            this.saveToFire(result)
+//            this.saveToFire(result)
         })
+    }
+
+    handleHistory = (type) => {
+        // valid types = ['comp_discrete', 'minmax', 'lssq', 'minmax_discrete', 'lssq_discrete', 'comp']
+        switch (type, data) {
+            case 'comp_discrete': {
+                this.setState({
+                    viewId: 7,
+                    
+                })
+                formsStates.
+                break
+            }
+            case 'minmax': {
+                this.setState({
+                    viewId: 2,
+                })
+                break
+            }
+            case 'lssq': {
+                this.setState({
+                    viewId: 1
+                })
+                break
+            }
+            case 'minmax_discrete': {
+                this.setState({
+                    viewId: 6
+                })
+                break
+            }
+            case 'lssq_discrete': {
+                this.setState({
+                    viewId: 5
+                })
+                break
+            }
+            case 'comp': {
+                this.setState({
+                    viewId: 3
+                })
+                break
+            }
+
+            dafault: this.setState({viewId: 4})
+        }
     }
 
     onMenuChange = (id) => {
@@ -248,13 +309,21 @@ class App extends React.Component {
         } else if (this.state.viewId === 3) {
             view = <div style={style}>
                 <Header title={'Порівняти Мінімакс і МНК'} onMenuChange={this.onMenuChange} />
-                <Comparison formData={formsStates.comp} clickCalcHandler={this.getMaxErrs} minmax={this.state.comparison.minmax} lssq={this.state.comparison.lssq} />
+                <Comparison
+                    formData={formsStates.comp}
+                    clickCalcHandler={this.getMaxErrs}
+                    minmax={this.state.comparison.minmax}
+                    lssq={this.state.comparison.lssq}
+                />
             </div>
         } else if (this.state.viewId === 4) {
             view = <div  style={style}>
                 <Header title={'Історія'} onMenuChange={this.onMenuChange} /> 
-                <History history={this.state.history}/>
-            </div>  
+                <History
+                    history={this.state.history}
+                    onItemClick={this.handleHistory}
+                />
+            </div>
         } else if (this.state.viewId === 5) {
             view = <div  style={style}>
                 <Header title={'МНК (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
@@ -266,7 +335,7 @@ class App extends React.Component {
         } else if (this.state.viewId === 6) {
             view = <div  style={style}>
                 <Header title={'Мінімакс (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
-                <Minmax_Discrete
+                <MinmaxDiscrete
                     clickCalcHandler={this.clickMinmax_DiscreteHandler}
                     formData={formsStates.minmax_discrete}
                     data={this.state.dataMinmax_discrete}
@@ -297,4 +366,3 @@ class App extends React.Component {
 }
 
 export default App
-

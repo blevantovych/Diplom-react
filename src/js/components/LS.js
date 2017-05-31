@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import IterationList from './IterationList'
 import Form from './Form'
 import Plot from './Plot'
+import Formula from './Formula'
 
 import truncateCoefs from '../helpers/truncateCoefs'
-import Formula from './Formula'
 
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import { Card, CardText } from 'material-ui/Card'
@@ -26,7 +26,7 @@ class LS extends Component {
                                         <TableRowColumn><Formula formula={this.props.data.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                     </TableRow>
                                     <TableRow>
-                                        <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp</TableRowColumn>
+                                        <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка</TableRowColumn>
                                         <TableRowColumn>{this.props.data.x_of_max_error.toFixed(5)}</TableRowColumn>
                                     </TableRow>
                                     <TableRow>

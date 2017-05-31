@@ -25,7 +25,7 @@ class LS extends Component {
                                         <TableRowColumn><Formula formula={this.props.data.formula.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
                                     </TableRow>
                                     <TableRow>
-                                        <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp;</TableRowColumn>
+                                        <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка</TableRowColumn>
                                         <TableRowColumn>{this.props.data.x_error.toFixed(5)}</TableRowColumn>
                                     </TableRow>
                                     <TableRow>
@@ -38,10 +38,14 @@ class LS extends Component {
 
                         <Plot id="ls_discrete_plot"
                             plotData={[
-                                //{x: this.props.data.x_approx, y: this.props.data.f_x_approx, name: 'Функція'},
                                 {x: this.props.data.x_approx, y: this.props.data.approximation, name: 'Апроксимація'},
                                 {x: this.props.data.x_vals, y: this.props.data.y_vals, mode: 'markers', name: 'Табл. дані'},
                                 {...this.props.data.max_error_line, name: 'Максимальна похибка'}
+                            ]}
+                        />
+                        <Plot id="ls_discrete_error" title='Функція похибки'
+                            plotData={[
+                                {...this.props.data.error_plot}
                             ]}
                         />
                     </Card>

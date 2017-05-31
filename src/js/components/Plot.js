@@ -7,7 +7,8 @@ class Plot extends Component {
 
     renderPlot = () => {
         if (this.props.legend === false) {
-            Plotly.newPlot('plot' + this.props.id, this.props.plotData, {title: this.props.title, showlegend: false})
+            Plotly.newPlot('plot' + this.props.id, this.props.plotData,
+                {title: this.props.title, showlegend: false})
         } else {
             Plotly.newPlot('plot' + this.props.id, this.props.plotData, {title: this.props.title})
         }

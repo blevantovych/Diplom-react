@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FormDiscrete from './FormDiscrete'
 import IterationListDiscreteMinmax from './IterationListDiscreteMinmax'
 
-class Minmax_Discrete extends Component {
+class MinmaxDiscrete extends Component {
     render() {
         return (
             <div>
@@ -16,4 +16,4 @@ class Minmax_Discrete extends Component {
     }
 }
 
-export default Minmax_Discrete
+export default MinmaxDiscrete

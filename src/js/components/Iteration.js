@@ -17,7 +17,7 @@ export default class Iteration extends React.Component {
     }
 
     handleExpandChange = (expanded) => {
-        this.setState({expanded: expanded})
+        this.setState({expanded})
     }
 
     render() {
@@ -65,16 +65,25 @@ export default class Iteration extends React.Component {
                                     <TableRowColumn>{this.props.data.max_err.toFixed(7)}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
-                                    <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка &nbsp</TableRowColumn>
+                                    <TableRowColumn>Значення <i>x</i> в якому досягається максимальна похибка</TableRowColumn>
                                     <TableRowColumn>{this.props.data.x_of_max_err.toFixed(7)}</TableRowColumn>
                                 </TableRow>
                                 <TableRow>
-                                    <TableRowColumn>{this.props.isLast ? 'Алгоритм закінчено бо ' : 'Продовжуємо алгоритм бо '}</TableRowColumn>
-                                    <TableRowColumn>{this.props.data.err_diff && this.props.data.err_diff.toFixed(7)} {this.props.isLast ? '<' : '>'} {this.props.precision}</TableRowColumn>
+                                    <TableRowColumn>
+                                        {this.props.isLast ? 'Алгоритм закінчено бо ' : 'Продовжуємо алгоритм бо '}
+                                    </TableRowColumn>
+                                    <TableRowColumn>
+                                        {this.props.data.err_diff &&
+                                        this.props.data.err_diff.toFixed(7)}
+                                        {this.props.isLast ? ' < ' : ' > '}
+                                        {this.props.precision}
+                                    </TableRowColumn>
                                 </TableRow>
                                 <TableRow>
                                     <TableRowColumn>Аналітичний вигляд многочлена</TableRowColumn>
-                                    <TableRowColumn><Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')}/></TableRowColumn>
+                                    <TableRowColumn>
+                                        <Formula formula={this.props.data.polynom_latex.replace(truncateCoefs(4), '$1')} />
+                                    </TableRowColumn>
                                 </TableRow>
                                 {/*<TableRow>
                                     <TableRowColumn>For desmos</TableRowColumn>
@@ -90,18 +99,17 @@ export default class Iteration extends React.Component {
                     </CardText>
                 </Card>
                 {
-                    this.props.isLast &&
-                    <Card>
-   
-                        <Plot
-                            id={this.props.ctn+1 + 'polynom'}
-                            title={'Функція і наближення многочленом'}
-                            plotData={[
-                                {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "p(x)"},
-                                {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "f(x)"}
-                            ]}
-                        />
-                    </Card>
+                this.props.isLast &&
+                <Card>
+                    <Plot
+                        id={this.props.ctn+1 + 'polynom'}
+                        title={'Функція і наближення многочленом'}
+                        plotData={[
+                            {x: this.props.data.pol_plot[0], y: this.props.data.pol_plot[1], name: "p(x)"},
+                            {x: this.props.data.func_plot[0], y: this.props.data.func_plot[1], name: "f(x)"}
+                        ]}
+                    />
+                </Card>
                 }
             </div>
         )

@@ -1,7 +1,7 @@
 const LOCAL = true
 const MINMAX_URL = LOCAL
-                    ? 'http://localhost:5000/minmaxGET?'
-                    : 'https://min-max.herokuapp.com/minmaxGET?'
+                    ? 'http://localhost:5000/minmax?'
+                    : 'https://min-max.herokuapp.com/minmax?'
                     
 const LSSQ_URL = LOCAL
                     ? 'http://localhost:5000/least_squares?'

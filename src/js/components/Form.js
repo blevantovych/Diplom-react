@@ -21,46 +21,45 @@ class Form extends PureComponent {
                     floatingLabelText="Степінь многочлена"
                     type="number"
                     defaultValue={this.props.formData.deg}
-                    onChange={(e) => this.props.formData.deg = e.target.value}
+                    onChange={(e) => this.props.formData.deg = +e.target.value}
                 />
 
                 <TextField
                     floatingLabelText="Початок інтервалу"
                     type="number"
                     defaultValue={this.props.formData.start}
-                    onChange={(e) => this.props.formData.start = e.target.value}
+                    onChange={(e) => this.props.formData.start = +e.target.value}
                 />
 
                 <TextField
                     floatingLabelText="Кінець інтервалу"
                     type="number"
                     defaultValue={this.props.formData.end}
-                    onChange={(e) => this.props.formData.end = e.target.value}
+                    onChange={(e) => this.props.formData.end = +e.target.value}
                 />
 
                 {this.props.minmax && <TextField
                     floatingLabelText="Точність"
                     type="number"
-                    defaultValue={this.props.formData.presicion}
-                    onChange={(e) => this.props.formData.percision = e.target.value}
+                    defaultValue={this.props.formData.precision}
+                    onChange={(e) => this.props.formData.percision = +e.target.value}
                 />}
 
                 {this.props.lssq && <TextField
                     floatingLabelText="Точки розбиття"
                     type="number"
                     defaultValue={this.props.formData.points}
-                    onChange={(e) => this.props.formData.points = e.target.value}
+                    onChange={(e) => this.props.formData.points = +e.target.value}
                 />}
 
                  <RaisedButton label="Обчислити"
                     primary={true}
-                    disabled={this.props.formData.disabled}
                     onClick={() => this.props.onCalcClick(
                         this.props.formData.func,
                         this.props.formData.start,
                         this.props.formData.end,
                         this.props.formData.deg,
-                        this.props.formData.presicion,
+                        this.props.formData.precision,
                         this.props.formData.points
                     )}
                 />
