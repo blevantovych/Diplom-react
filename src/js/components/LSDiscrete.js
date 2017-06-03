@@ -11,6 +11,7 @@ import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import { Card, CardText } from 'material-ui/Card'
 
 class LS extends Component {
+    
     render() {
         return (
             <div>
@@ -40,7 +41,7 @@ class LS extends Component {
                             plotData={[
                                 {x: this.props.data.x_approx, y: this.props.data.approximation, name: 'Апроксимація'},
                                 {x: this.props.data.x_vals, y: this.props.data.y_vals, mode: 'markers', name: 'Табл. дані'},
-                                {...this.props.data.max_error_line, name: 'Максимальна похибка'}
+                                {...this.props.data.max_error_line, name: 'Максимальна похибка', mode: 'lines'}
                             ]}
                         />
                         <Plot id="ls_discrete_error" title='Функція похибки'
@@ -48,6 +49,7 @@ class LS extends Component {
                                 {...this.props.data.error_plot}
                             ]}
                         />
+                        <h1>{`Час рахування: ${this.props.data.computation_time}`}</h1>
                     </Card>
                 }
             </div>

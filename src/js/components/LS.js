@@ -6,6 +6,7 @@ import Plot from './Plot'
 import Formula from './Formula'
 
 import truncateCoefs from '../helpers/truncateCoefs'
+import range from 'lodash.range'
 
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import { Card, CardText } from 'material-ui/Card'
@@ -42,14 +43,24 @@ class LS extends Component {
                                 {x: this.props.data.x_approx, y: this.props.data.f_x_approx, name: 'Функція'},
                                 {x: this.props.data.x_approx, y: this.props.data.approximation, name: 'Апроксимація'},
                                 {x: this.props.data.x_vals, y: this.props.data.y_vals, mode: 'markers', name: 'Точки (викор. в МНК)'},
-                                {...this.props.data.max_error_line, name: 'Максимальна похибка'}
+                                {...this.props.data.max_error_line, name: 'Максимальна похибка', mode: 'lines'}
                             ]}
                         />
                          <Plot id="ls_error" title='Функція похибки'
                             plotData={[
-                                {...this.props.data.error_plot}
+                                {
+                                    ...this.props.data.error_plot,
+                                    name: 'функція похибки'
+                                },
+                                {
+                                    x: this.props.data.max_error_line.x,
+                                    y: this.props.data.y_error_plot,
+                                    mode: 'lines',
+                                    name: 'макс. похибка'   
+                                }
                             ]}
                         />
+                        <h1>{`Час рахування: ${this.props.data.computation_time.toFixed(2)}`}</h1>
                     </Card>
                 }
             </div>

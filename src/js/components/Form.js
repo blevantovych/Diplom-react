@@ -42,7 +42,7 @@ class Form extends PureComponent {
                     floatingLabelText="Точність"
                     type="number"
                     defaultValue={this.props.formData.precision}
-                    onChange={(e) => this.props.formData.percision = +e.target.value}
+                    onChange={(e) => this.props.formData.precision = +e.target.value}
                 />}
 
                 {this.props.lssq && <TextField

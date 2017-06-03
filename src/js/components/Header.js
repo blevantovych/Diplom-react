@@ -50,6 +50,7 @@ const Menu = (props) => (
 class Header extends Component {
     
     render() {
+
         return (
             <AppBar
                 style={{position: 'fixed', top: 0, width: '60vw'}}

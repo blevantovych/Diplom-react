@@ -94,7 +94,7 @@ class Form extends PureComponent {
                             onTouchTap={() => {
                                 this.setState({
                                     points: [...this.state.points].sort((p1, p2) => {
-                                        return p1.x > p2.x ? 1 : -1
+                                        return +p1.x > +p2.x ? 1 : -1
                                     })
                                 })
                             }}

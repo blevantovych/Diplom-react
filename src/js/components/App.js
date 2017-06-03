@@ -11,6 +11,8 @@ import Comparison from './Comparison'
 import ComparisonDiscrete from './ComparisonDiscrete'
 import History from './History'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Snackbar from 'material-ui/Snackbar'
+
 import './main.scss'
 
 import toArr from '../helpers/toArr'
@@ -31,13 +33,14 @@ class App extends React.Component {
             isLssq: false,
             loaderActive: false,
             // errorMessage: false,
+            message: '',
             data: [],
             dataLS: null,
             dataLS_discrete: null,
             dataMinmax_discrete: [],
             dataCompareMinmaxDiscrete: null,
             dataCompareLssqDiscrete: null,
-            viewId: 7,
+            viewId: 2,
             comparison: {
                 lssq: {
                     max_error: 0,
@@ -53,7 +56,7 @@ class App extends React.Component {
                 }
             }
         }
-         this.ref = base.bindToState('history', {
+        this.ref = base.bindToState('history', {
             context: this,
             asArray: true,
             state: 'history'
@@ -76,7 +79,10 @@ class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true})
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
         const lssq = () =>
             fetch(LSSQ_URL, {
                 method: 'POST',
@@ -88,16 +94,18 @@ class App extends React.Component {
                 method: 'POST',
                 body: JSON.stringify({func, start, end, deg, precision})
             }).then(res => res.json())
-
+        const startTime = Date.now()
         Promise.all([lssq(), minmax()]).then(data => {
+            const endTime = Date.now()
             this.setState({
                 comparison: {
                     lssq: data[0],
                     minmax: toArr(data[1]).last(),
                 },
-                loaderActive: false
+                loaderActive: false,
+                message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
             })
-            result.output = data
+            // result.output = data
   //          this.saveToFire(result)
         }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
@@ -114,7 +122,11 @@ class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true})
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
+        const startTime = Date.now()
         fetch(LSSQ_URL, {
             method: 'POST',
             body: JSON.stringify({
@@ -122,8 +134,13 @@ class App extends React.Component {
             })
         }).then(res => res.json())
             .then(res => {
-                this.setState({dataLS: res, loaderActive: false, precision})
-                result.output = res
+                const endTime = Date.now()
+                this.setState({
+                    dataLS: res,
+                    loaderActive: false,
+                    message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
+                })
+                // result.output = res
 //                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
@@ -131,7 +148,7 @@ class App extends React.Component {
             })
     }
     
-    clickCalcLS_DiscreteHandler = (x_vals, y_vals, deg) => {
+    clickCalcLSDiscreteHandler = (x_vals, y_vals, deg) => {
         let result = {
             type: 'lssq_discrete',
             inputData: {
@@ -139,19 +156,28 @@ class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true})
-
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
+        const startTime = Date.now()
         fetch(LSSQ_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
-            result.output = res
+            // result.output = res
 //            this.saveToFire(result)
-            this.setState({dataLS_discrete: res, loaderActive: false})
+            const endTime = Date.now()
+            this.setState({
+                dataLS_discrete: res,
+                loaderActive: false,
+                message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
+            })
         })
     }
 
-    clickMinmax_DiscreteHandler = (x_vals, y_vals, deg) => {
+
+    clickMinmaxDiscreteHandler = (x_vals, y_vals, deg) => {
         let result = {
             type: 'minmax_discrete',
             inputData: {
@@ -159,15 +185,22 @@ class App extends React.Component {
             },
             date: Date.now()
         }
-        this.setState({loaderActive: true})
-
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
+        const startTime = Date.now()
         fetch(MINMAX_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
-            result.output = res
-//            this.saveToFire(result)
-            this.setState({dataMinmax_discrete: toArr(res), loaderActive: false})
+            const endTime = Date.now()
+
+            this.setState({
+                dataMinmax_discrete: toArr(res),
+                loaderActive: false,
+                message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
+            })
         })
     }
 
@@ -181,16 +214,26 @@ class App extends React.Component {
             date: Date.now()
         }
 
-        this.setState({loaderActive: true})
-
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
+        const startTime = Date.now()
         fetch(MINMAX_URL, {
             method: 'POST',
             body: JSON.stringify({func, start, end, deg, precision})
         })
             .then(r => r.json())
             .then(r => {
-                this.setState({data: toArr(r), loaderActive: false, precision})
-                result.output = r
+                const endTime = Date.now()
+                this.setState({
+                    data: toArr(r),
+                    loaderActive: false,
+                    message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
+                })
+                console.log((endTime - startTime) / 1000)
+
+                // result.output = r
 //                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
@@ -203,9 +246,7 @@ class App extends React.Component {
             x,
             y: y_vals[i]
         }))
-        
-        console.log('Points')
-        console.log(points)
+
         let result = {
             type: 'comp_discrete',
             inputData: {
@@ -222,13 +263,19 @@ class App extends React.Component {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json())
-        this.setState({loaderActive: true})
 
+        this.setState({
+            loaderActive: true,
+            message: ''
+        })
+        const startTime = Date.now()
         Promise.all([lssqDiscrete, minmaxDiscrete]).then(data => {
+            const endTime = Date.now()
             this.setState({
                 dataCompareMinmaxDiscrete: toArr(data[1]),
                 dataCompareLssqDiscrete: data[0],
-                loaderActive: false
+                loaderActive: false,
+                message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
             })
             result.output = data
 //            this.saveToFire(result)
@@ -283,7 +330,8 @@ class App extends React.Component {
 
     onMenuChange = (id) => {
         this.setState({
-            viewId: id
+            viewId: id,
+            message: ''
         })
     }
 
@@ -327,7 +375,7 @@ class App extends React.Component {
         } else if (this.state.viewId === 5) {
             view = <div  style={style}>
                 <Header title={'МНК (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
-                <LSDiscrete clickCalcHandler={this.clickCalcLS_DiscreteHandler}
+                <LSDiscrete clickCalcHandler={this.clickCalcLSDiscreteHandler}
                         formData={formsStates.lssq_discrete}
                         data={this.state.dataLS_discrete}
                 />
@@ -336,7 +384,7 @@ class App extends React.Component {
             view = <div  style={style}>
                 <Header title={'Мінімакс (дискретна функція)'} onMenuChange={this.onMenuChange} /> 
                 <MinmaxDiscrete
-                    clickCalcHandler={this.clickMinmax_DiscreteHandler}
+                    clickCalcHandler={this.clickMinmaxDiscreteHandler}
                     formData={formsStates.minmax_discrete}
                     data={this.state.dataMinmax_discrete}
                  />
@@ -358,7 +406,12 @@ class App extends React.Component {
                 <div style={{width: '60vw', margin: 'auto'}}>
                     {view}
                     <Loader active={this.state.loaderActive} />
-                    {/*<ErrorMessage open={this.state.errorMessage} />*/}
+                    <Snackbar
+                        open={!!this.state.message}
+                        message={this.state.message}
+                        autoHideDuration={4000}
+                        bodyStyle={{backgroundColor: 'rgb(0, 188, 212)'}}
+                    />
                 </div>
             </MuiThemeProvider>
         )
