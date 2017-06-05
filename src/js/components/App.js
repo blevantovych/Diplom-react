@@ -1,5 +1,5 @@
 import React from 'react'
-import Rebase from 're-base'
+// import Rebase from 're-base'
 
 import Header from './Header'
 import Loader from './loader'
@@ -22,7 +22,7 @@ import formsStates from './formsStates'
 
 import { MINMAX_URL, LSSQ_URL, LSSQ_DISCRETE_URL, MINMAX_DISCRETE_URL } from './URLS'
 
-const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
+// const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
 
 class App extends React.Component {
     constructor(props) {
@@ -56,29 +56,13 @@ class App extends React.Component {
                 }
             }
         }
-        this.ref = base.bindToState('history', {
-            context: this,
-            asArray: true,
-            state: 'history'
-        })
+
         injectTapEventPlugin()
     }
 
-    saveToFire = (data) => {
-        base.post('history', {
-            data: this.state.history.concat([data])
-        })
-    }
-    
+
     getMaxErrs = (func, start, end, deg, precision, points) => {
-         let result = {
-            type: 'comp',
-            id: `${func}|${start}|${end}|${deg}|${precision}|${points}`,
-            inputData: {
-                func, start, end, deg, points, precision
-            },
-            date: Date.now()
-        }
+
         this.setState({
             loaderActive: true,
             message: ''
@@ -105,8 +89,7 @@ class App extends React.Component {
                 loaderActive: false,
                 message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
             })
-            // result.output = data
-  //          this.saveToFire(result)
+
         }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -114,14 +97,7 @@ class App extends React.Component {
     }
 
     clickCalcLSHandler = (func, start, end, deg, precision, points) => {
-        let result = {
-            type: 'lssq',
-            id: `${func}|${start}|${end}|${deg}|${points}`,
-            inputData: {
-                func, start, end, deg, points
-            },
-            date: Date.now()
-        }
+
         this.setState({
             loaderActive: true,
             message: ''
@@ -140,8 +116,6 @@ class App extends React.Component {
                     loaderActive: false,
                     message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
                 })
-                // result.output = res
-//                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -149,24 +123,19 @@ class App extends React.Component {
     }
     
     clickCalcLSDiscreteHandler = (x_vals, y_vals, deg) => {
-        let result = {
-            type: 'lssq_discrete',
-            inputData: {
-                x_vals, y_vals, deg
-            },
-            date: Date.now()
-        }
+
         this.setState({
             loaderActive: true,
             message: ''
         })
+
         const startTime = Date.now()
+
         fetch(LSSQ_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
         }).then(r => r.json()).then(res => {
-            // result.output = res
-//            this.saveToFire(result)
+
             const endTime = Date.now()
             this.setState({
                 dataLS_discrete: res,
@@ -178,18 +147,14 @@ class App extends React.Component {
 
 
     clickMinmaxDiscreteHandler = (x_vals, y_vals, deg) => {
-        let result = {
-            type: 'minmax_discrete',
-            inputData: {
-                x_vals, y_vals, deg
-            },
-            date: Date.now()
-        }
+
         this.setState({
             loaderActive: true,
             message: ''
         })
+
         const startTime = Date.now()
+
         fetch(MINMAX_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
@@ -205,14 +170,6 @@ class App extends React.Component {
     }
 
     clickCalcMinmaxHandler = (func, start, end, deg, precision) => {
-        let result = {
-            type: 'minmax',
-            id: `${func}|${start}|${end}|${deg}|${precision}`,
-            inputData: {
-                func, start, end, deg, precision
-            },
-            date: Date.now()
-        }
 
         this.setState({
             loaderActive: true,
@@ -231,10 +188,7 @@ class App extends React.Component {
                     loaderActive: false,
                     message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
                 })
-                console.log((endTime - startTime) / 1000)
 
-                // result.output = r
-//                this.saveToFire(result)
             }).catch(e => {
                 console.error(`Something went wrong!\n ${e}`)
                 this.setState({loaderActive: false})
@@ -247,13 +201,6 @@ class App extends React.Component {
             y: y_vals[i]
         }))
 
-        let result = {
-            type: 'comp_discrete',
-            inputData: {
-                points, deg
-            },
-            date: Date.now()
-        }
         const lssqDiscrete = fetch(LSSQ_DISCRETE_URL, {
             method: 'POST',
             body: JSON.stringify({x_vals, y_vals, deg})
@@ -277,12 +224,11 @@ class App extends React.Component {
                 loaderActive: false,
                 message: 'Затрачений час: ' + ((endTime - startTime) / 1000) + ' c.'
             })
-            result.output = data
-//            this.saveToFire(result)
         })
     }
 
     handleHistory = (type) => {
+        
         // valid types = ['comp_discrete', 'minmax', 'lssq', 'minmax_discrete', 'lssq_discrete', 'comp']
         switch (type, data) {
             case 'comp_discrete': {
@@ -290,7 +236,7 @@ class App extends React.Component {
                     viewId: 7,
                     
                 })
-                formsStates.
+                
                 break
             }
             case 'minmax': {
@@ -351,7 +297,7 @@ class App extends React.Component {
                 <Minmax
                     formData={formsStates.minmax}
                     clickCalcHandler={this.clickCalcMinmaxHandler}
-                    data={this.state.data} precision={this.state.precision}
+                    data={this.state.data}
                 />
             </div>
         } else if (this.state.viewId === 3) {

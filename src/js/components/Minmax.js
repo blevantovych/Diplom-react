@@ -15,7 +15,7 @@ class Minmax extends Component {
                     onCalcClick={this.props.clickCalcHandler}
                     minmax={true}
                 />
-                <IterationList arr={this.props.data} precision={this.props.precision} />
+                <IterationList arr={this.props.data} />
             </div>
         )
     }

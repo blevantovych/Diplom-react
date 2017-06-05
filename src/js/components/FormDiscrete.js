@@ -99,13 +99,23 @@ class Form extends PureComponent {
                                 })
                             }}
                         />
-        let addButton = <RaisedButton label="Додати точку"
-                            secondary={true}
-                            containerElement="label"
-                            onTouchTap={() => this.setState({
-                                points: [...this.state.points, {x: 0, y: 0}]}
-                            )}
-                        />
+        let addClearBtns = <div style={{height: '100%'}}>
+                          <RaisedButton label="Очистити"
+                               secondary={true}
+                               containerElement="label"
+                               onTouchTap={() => this.setState({
+                                    points: [{x: 0, y: 0}]
+                                   }
+                               )}
+                           />
+                            <RaisedButton label="Додати"
+                               secondary={true}
+                               containerElement="label"
+                               onTouchTap={() => this.setState({
+                                   points: [...this.state.points, {x: 0, y: 0}]}
+                               )}
+                           />
+                        </div>
 
         let x_vals_tds = this.state.points.map((val, i) => 
         <td>
@@ -147,7 +157,7 @@ class Form extends PureComponent {
             </td>)
 
         x_vals_tds.push(sortButton)
-        y_vals_tds.push(addButton)
+        y_vals_tds.push(addClearBtns)
         let separateXTds = chunk(x_vals_tds, 10)
         let separateYTds = chunk(y_vals_tds, 10)
 

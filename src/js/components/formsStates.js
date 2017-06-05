@@ -1,7 +1,7 @@
 let formsStates = {
     minmax: {
         func: 'ln(x)',
-        deg: 1,
+        deg: 5,
         start: 1,
         end: 3,
         precision: 0.01,

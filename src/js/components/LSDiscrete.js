@@ -49,7 +49,7 @@ class LS extends Component {
                                 {...this.props.data.error_plot}
                             ]}
                         />
-                        <h1>{`Час рахування: ${this.props.data.computation_time}`}</h1>
+                        <h1>{`Час рахування: ${this.props.data.computation_time.toFixed(2)}`}</h1>
                     </Card>
                 }
             </div>
