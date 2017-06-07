@@ -2,6 +2,11 @@ import React from 'react'
 import IterationMinmaxDiscrete from './IterationMinmaxDiscrete'
 import Plot from './Plot'
 
+const lineStyles = {
+    color: 'rgb(32, 206, 15)',
+    dash: 'dash'
+}
+
 export default class IterationListDiscreteMinmax extends React.Component {
     constructor(props) {
         super(props)
@@ -39,6 +44,14 @@ export default class IterationListDiscreteMinmax extends React.Component {
                 x: this.props.arr[this.plotNum].alternance,
                 y: this.props.arr[this.plotNum].err_in_each_point,
                 mode: 'markers',
+            }, {
+                x: this.props.arr[this.plotNum].x_approx,
+                y: Array(this.props.arr[this.plotNum].x_approx.length).fill(this.props.arr[this.plotNum].err_in_each_point[0]),
+                line: lineStyles
+            }, {
+                x: this.props.arr[this.plotNum].x_approx,
+                y: Array(this.props.arr[this.plotNum].x_approx.length).fill(-this.props.arr[this.plotNum].err_in_each_point[0]),
+                line: lineStyles
             }, {
                 ...this.props.arr[this.plotNum].max_err_in_error_plot,
                 mode: 'lines',
@@ -90,6 +103,16 @@ export default class IterationListDiscreteMinmax extends React.Component {
                             mode: 'markers',
                             name: 'Точки альтернансу'
                         }, {
+                            x: this.props.arr[0].x_approx,
+                            y: Array(this.props.arr[0].x_approx.length).fill(this.props.arr[0].err_in_each_point[0]),
+                            line: lineStyles,
+                            showlegend: false
+                        }, {
+                            x: this.props.arr[0].x_approx,
+                            y: Array(this.props.arr[0].x_approx.length).fill(-this.props.arr[0].err_in_each_point[0]),
+                            line: lineStyles,
+                            showlegend: false
+                        }, {
                             ...this.props.arr[0].max_err_in_error_plot,
                             mode: 'lines',
                             name: 'Макс. похибка',
@@ -97,6 +120,7 @@ export default class IterationListDiscreteMinmax extends React.Component {
                              //   color: 'rgba(#ff0000, 0.3)'
                                 color: 'rgba(255, 0, 0, 0.6)'
                             }
+
                         }]}
                     />
                 </div>

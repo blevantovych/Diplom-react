@@ -2,6 +2,11 @@ import React from 'react'
 import Iteration from './Iteration'
 import Plot from './Plot'
 
+const lineStyles = {
+    color: 'rgb(32, 206, 15)',
+    dash: 'dash'
+}
+
 export default class IterationList extends React.Component {
     constructor(props) {
         super(props)
@@ -38,12 +43,20 @@ export default class IterationList extends React.Component {
                 y: this.props.arr[this.plotNum].err_in_each_point,
                 mode: 'markers',
             }, {
-                    ...this.props.arr[this.plotNum].max_err_in_error_plot,
-                    mode: 'lines',
-                    name: 'Макс. похибка',
-                    line: {
-                        color: 'rgba(255, 0, 0, 0.6)'
-                    }
+                x: this.props.arr[this.plotNum].error_plot[0],
+                y: Array(this.props.arr[this.plotNum].error_plot[0].length).fill(this.props.arr[this.plotNum].err_in_each_point[0]),
+                line: lineStyles
+            }, {
+                x: this.props.arr[this.plotNum].error_plot[0],
+                y: Array(this.props.arr[this.plotNum].error_plot[0].length).fill(-this.props.arr[this.plotNum].err_in_each_point[0]),
+                line: lineStyles
+            }, {
+                ...this.props.arr[this.plotNum].max_err_in_error_plot,
+                mode: 'lines',
+                name: 'Макс. похибка',
+                line: {
+                    color: 'rgba(255, 0, 0, 0.6)'
+                }
             }],
             layout: {
                 title: `Ітерація ${this.plotNum+1}`
@@ -105,6 +118,18 @@ export default class IterationList extends React.Component {
                                 y: this.props.arr[0].err_in_each_point,
                                 mode: 'markers',
                                 name: 'Точки альтернансу'
+                            }, {
+                                x: this.props.arr[0].error_plot[0],
+                                y: Array(this.props.arr[0].error_plot[0].length).fill(this.props.arr[0].err_in_each_point[0]),
+                                line: lineStyles,
+                                //visible: 'legendonly'
+                                showlegend: false
+                            }, {
+                                x: this.props.arr[0].error_plot[0],
+                                y: Array(this.props.arr[0].error_plot[0].length).fill(-this.props.arr[0].err_in_each_point[0]),
+                                line: lineStyles,
+                                showlegend: false
+                                //visible: 'legendonly'
                             }, {
                                 ...this.props.arr[0].max_err_in_error_plot,
                                 mode: 'lines',
