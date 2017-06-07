@@ -19,6 +19,8 @@ class ComparisonDiscrete extends Component {
         let minmaxData
         let mmPlot
         let lsPlot
+        let errsPlot
+
         if (this.props.minmaxData) {
 
             minmaxData = this.props.minmaxData.last()
@@ -45,7 +47,21 @@ class ComparisonDiscrete extends Component {
                                         name: 'Максимальна похибка', line: {color: '#f00'}}
                                 ]}
                             />
+            errsPlot = <Plot id="comp_discrete_errs_plot"
+                                plotData={[
+                                    {
+                                        ...this.props.lssqData.error_plot,
+                                        name: 'МНК',
+                                    },
+                                    {
+                                        x: minmaxData.error_plot[0],
+                                        y: minmaxData.error_plot[1],
+                                        name: 'Мінімакс'
+                                    }
+                                ]}
+                            />
         }
+
         return (
             
             <div>
@@ -83,6 +99,7 @@ class ComparisonDiscrete extends Component {
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            {errsPlot}
                         </CardText>
                     </Card>
                 </div>}

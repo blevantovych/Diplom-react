@@ -45,14 +45,16 @@ class App extends React.Component {
                 lssq: {
                     max_error: 0,
                     x_of_max_error: 0,
-                    formula: ''
+                    formula: '',
+                    error_plot: []
                 },
                 minmax: {
                     max_err: 0,
                     x_of_max_err: 0,
                     func_plot: [],
                     pol_plot: [],
-                    polynom_latex: ''
+                    polynom_latex: '',
+                    error_plot: []
                 }
             }
         }

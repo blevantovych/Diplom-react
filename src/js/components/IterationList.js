@@ -9,10 +9,7 @@ export default class IterationList extends React.Component {
     plotNum = 1
 
     handleClicks = (e) => {
-        console.log('event')
-        console.log(e)
         if (e.keyCode == 37) {
-            console.log('left key pressed')
             if (this.plotNum === 0) {
                 this.plotNum = this.props.arr.length - 1
             } else {
@@ -21,7 +18,6 @@ export default class IterationList extends React.Component {
             this.changeErrPlot()
         }
         if (e.keyCode == 39) {
-            console.log('right key pressed')
             this.plotNum++
             if (this.plotNum === this.props.arr.length) {
                 this.plotNum = 0
@@ -41,6 +37,13 @@ export default class IterationList extends React.Component {
                 x: this.props.arr[this.plotNum].alternance,
                 y: this.props.arr[this.plotNum].err_in_each_point,
                 mode: 'markers',
+            }, {
+                    ...this.props.arr[this.plotNum].max_err_in_error_plot,
+                    mode: 'lines',
+                    name: 'Макс. похибка',
+                    line: {
+                        color: 'rgba(255, 0, 0, 0.6)'
+                    }
             }],
             layout: {
                 title: `Ітерація ${this.plotNum+1}`
@@ -102,6 +105,13 @@ export default class IterationList extends React.Component {
                                 y: this.props.arr[0].err_in_each_point,
                                 mode: 'markers',
                                 name: 'Точки альтернансу'
+                            }, {
+                                ...this.props.arr[0].max_err_in_error_plot,
+                                mode: 'lines',
+                                name: 'Макс. похибка',
+                                line: {
+                                    color: 'rgba(255, 0, 0, 0.6)'
+                                }
                             }]}
                         />
                     </div>

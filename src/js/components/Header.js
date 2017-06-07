@@ -7,7 +7,6 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 
 import Hamburger from 'material-ui/svg-icons/navigation/menu'
 
-
 const Menu = (props) => (
     <IconMenu
         iconButtonElement={
@@ -34,10 +33,10 @@ const Menu = (props) => (
                 <MenuItem primaryText="Порівняти" onTouchTap={() => props.onMenuChange(3)} />,
             ]}
         />
-        <MenuItem
+        {/*<MenuItem
             primaryText="Історія"
             onTouchTap={() => props.onMenuChange(4)}
-        />
+        />*/}
         <MenuItem
             primaryText="Як користуватися (pdf)"
         >

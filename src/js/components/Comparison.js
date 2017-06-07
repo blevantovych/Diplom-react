@@ -9,11 +9,12 @@ import Plot from './Plot'
 import Formula from './Formula'
 import range from 'lodash.range'
 
-if (!Array.prototype.last){
-    Array.prototype.last = function(){
-        return this[this.length - 1]
-    }
-}
+// app uses it
+// if (!Array.prototype.last){
+//     Array.prototype.last = function(){
+//         return this[this.length - 1]
+//     }
+// }
 
 class Comparison extends PureComponent {
     constructor(props) {
@@ -33,6 +34,15 @@ class Comparison extends PureComponent {
                             plotData={[
                                 {x: this.props.minmax.func_plot[0], y: this.props.minmax.func_plot[1]},
                                 {x: this.props.minmax.pol_plot[0], y: this.props.minmax.pol_plot[1]}
+                            ]}
+                        />
+        const errsPlot = <Plot id="comp_err_plot" title="Функції похибок"
+                            plotData={[
+                                {...this.props.lssq.error_plot, name: 'МНК'},
+                                {x: this.props.minmax.error_plot[0],
+                                y: this.props.minmax.error_plot.length > 0 
+                                ? this.props.minmax.error_plot[1].map(y => -y)
+                                : this.props.minmax.error_plot[1], name: 'Мінімакс'}
                             ]}
                         />
         return (
@@ -70,6 +80,7 @@ class Comparison extends PureComponent {
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            {errsPlot}
                         </CardText>
                     </Card>
                 </div>
