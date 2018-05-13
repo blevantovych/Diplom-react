@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import { withRouter } from 'react-router-dom';
 
 import Hamburger from 'material-ui/svg-icons/navigation/menu';
 
@@ -21,14 +22,17 @@ const Menu = props => (
       primaryText="Дискретний випадок"
       rightIcon={<ArrowDropRight />}
       menuItems={[
-        <MenuItem primaryText="МНК" onTouchTap={() => props.onMenuChange(5)} />,
+        <MenuItem
+          primaryText="МНК"
+          onClick={() => props.history.push('/ls-discrete')}
+        />,
         <MenuItem
           primaryText="Мінімакс"
-          onTouchTap={() => props.onMenuChange(6)}
+          onClick={() => props.history.push('/minmax-discrete')}
         />,
         <MenuItem
           primaryText="Порівняти"
-          onTouchTap={() => props.onMenuChange(7)}
+          onClick={() => props.history.push('/comparison-discrete')}
         />
       ]}
     />
@@ -36,14 +40,17 @@ const Menu = props => (
       primaryText="Неперервний випадок"
       rightIcon={<ArrowDropRight />}
       menuItems={[
-        <MenuItem primaryText="МНК" onTouchTap={() => props.onMenuChange(1)} />,
+        <MenuItem
+          primaryText="МНК"
+          onClick={() => props.history.push('/ls')}
+        />,
         <MenuItem
           primaryText="Мінімакс"
-          onTouchTap={() => props.onMenuChange(2)}
+          onClick={() => props.history.push('/minmax')}
         />,
         <MenuItem
           primaryText="Порівняти"
-          onTouchTap={() => props.onMenuChange(3)}
+          onClick={() => props.history.push('/comparison-continuous')}
         />
       ]}
     />
@@ -61,13 +68,18 @@ class Header extends Component {
   render() {
     return (
       <AppBar
-        style={{ position: 'fixed', top: 0, width: '60vw' }}
+        // style={{  position: 'fixed', top: 0, width: '60vw' }}
         title={this.props.title}
         showMenuIconButton={false}
-        iconElementRight={<Menu onMenuChange={this.props.onMenuChange} />}
+        iconElementRight={
+          <Menu
+            onMenuChange={this.props.onMenuChange}
+            history={this.props.history}
+          />
+        }
       />
     );
   }
 }
 
-export default Header;
+export default withRouter(Header);

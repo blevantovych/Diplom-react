@@ -1,9 +1,9 @@
-import React, { Component, PureComponent } from "react";
-import { TextField, RaisedButton } from "material-ui";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import React, { Component, PureComponent } from 'react';
+import { TextField, RaisedButton } from 'material-ui';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
-import chunk from "lodash.chunk";
+import chunk from 'lodash.chunk';
 
 function to_json(workbook) {
   var result = {};
@@ -34,7 +34,7 @@ const excelIcon = (
     viewBox="0 0 24 24"
     class="icon icons8-Microsoft-Excel"
   >
-    {" "}
+    {' '}
     <path d="M 14 2 L 2 4 L 2 20 L 14 22 L 14 2 z M 15 4 L 15 7 L 17 7 L 17 8 L 15 8 L 15 10 L 17 10 L 17 11 L 15 11 L 15 13 L 17 13 L 17 14 L 15 14 L 15 16 L 17 16 L 17 17 L 15 17 L 15 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 15 4 z M 18 7 L 20 7 L 20 8 L 18 8 L 18 7 z M 4.21875 8 L 6.28125 8 L 7.34375 10.40625 C 7.43075 10.60125 7.4945 10.8055 7.5625 11.0625 L 7.59375 11.0625 C 7.63275 10.9085 7.72675 10.683 7.84375 10.375 L 9.03125 8 L 10.9375 8 L 8.6875 11.96875 L 11 16 L 8.96875 16 L 7.6875 13.40625 C 7.6385 13.31425 7.57925 13.10075 7.53125 12.84375 L 7.5 12.84375 C 7.471 12.96675 7.43175 13.15925 7.34375 13.40625 L 6.03125 16 L 4 16 L 6.40625 12 L 4.21875 8 z M 18 10 L 20 10 L 20 11 L 18 11 L 18 10 z M 18 13 L 20 13 L 20 14 L 18 14 L 18 13 z M 18 16 L 20 16 L 20 17 L 18 17 L 18 16 z" />
   </svg>
 );
@@ -47,15 +47,15 @@ class Form extends PureComponent {
       excelTableHeaders: [],
       excelTableInJson: null,
       showColumnChooser: false,
-      X: "",
-      Y: ""
+      X: '',
+      Y: ''
     };
   }
 
   processWorkBook = wb => {
     let excelTableInJson = to_json(wb).Sheet1;
     let headers = Object.keys(excelTableInJson[0]);
-    console.log("Headers\n", headers);
+    console.log('Headers\n', headers);
     this.setState({
       excelTableHeaders: headers,
       excelTableInJson,
@@ -68,27 +68,27 @@ class Form extends PureComponent {
     let reader = new FileReader();
     reader.onload = e => {
       let data = e.target.result;
-      let wb = XLSX.read(data, { type: "binary" });
+      let wb = XLSX.read(data, { type: 'binary' });
       this.processWorkBook(wb);
     };
     reader.readAsBinaryString(file);
   };
 
-  onFileUpload = (event, type = "vert") => {
+  onFileUpload = (event, type = 'vert') => {
     const input = event.target;
     const reader = new FileReader();
     reader.onload = () => {
       // if horizontal
       const data = reader.result;
-      let rows = data.split("\n");
+      let rows = data.split('\n');
       let points = [];
-      if (type === "hor") {
+      if (type === 'hor') {
         let x_vals = rows[0].split(/,\s?/g);
         let y_vals = rows[1].split(/,\s?/g);
         x_vals.forEach((val, i) => {
           points.push({ x: +val, y: +y_vals[i] });
         });
-      } else if (type === "vert") {
+      } else if (type === 'vert') {
         rows.forEach((row, i) => {
           let xy = row.split(/,\s?/);
           console.log(xy);
@@ -120,7 +120,7 @@ class Form extends PureComponent {
       />
     );
     let addClearBtns = (
-      <div style={{ height: "100%" }}>
+      <div style={{ height: '100%' }}>
         <RaisedButton
           label="Очистити"
           secondary={true}
@@ -162,7 +162,7 @@ class Form extends PureComponent {
             val.x = e.target.value;
             this.forceUpdate();
           }}
-          style={{ width: "50px" }}
+          style={{ width: '50px' }}
         />
       </td>
     ));
@@ -184,7 +184,7 @@ class Form extends PureComponent {
             val.y = e.target.value;
             this.forceUpdate();
           }}
-          style={{ width: "50px" }}
+          style={{ width: '50px' }}
         />
       </td>
     ));
@@ -253,7 +253,7 @@ class Form extends PureComponent {
         <div
           class="xy_chooser"
           style={{
-            visibility: this.state.showColumnChooser ? "visible" : "hidden"
+            visibility: this.state.showColumnChooser ? 'visible' : 'hidden'
           }}
         >
           <div>
@@ -334,5 +334,12 @@ class Form extends PureComponent {
     );
   }
 }
+
+Form.defaultProps = {
+  formData: {
+    points: [],
+    deg: 2
+  }
+};
 
 export default Form;

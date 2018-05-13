@@ -11,7 +11,7 @@ class MinmaxDiscrete extends Component {
           formData={this.props.formData}
           onCalcClick={this.props.clickCalcHandler}
         />
-        <IterationListDiscreteMinmax arr={this.props.data} />
+        {/* <IterationListDiscreteMinmax arr={this.props.data} /> */}
       </div>
     );
   }

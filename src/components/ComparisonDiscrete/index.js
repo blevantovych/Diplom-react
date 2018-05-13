@@ -6,15 +6,12 @@ import Header from '../Header';
 
 const Container = ({}) => (
   <React.Fragment>
-    <Header
-      title={'Порівняти Мінімакс і МНК'}
-      onMenuChange={this.onMenuChange}
-    />
+    {/* <Header title={'Порівняти Мінімакс і МНК'} /> */}
     <ComparisonDiscrete
-      clickCalcHandler={this.clickDiscreteCompare}
-      formData={formsStates.compare_discrete}
-      minmaxData={this.state.dataCompareMinmaxDiscrete}
-      lssqData={this.state.dataCompareLssqDiscrete}
+    // clickCalcHandler={this.clickDiscreteCompare}
+    // formData={formsStates.compare_discrete}
+    // minmaxData={this.state.dataCompareMinmaxDiscrete}
+    // lssqData={this.state.dataCompareLssqDiscrete}
     />
   </React.Fragment>
 );

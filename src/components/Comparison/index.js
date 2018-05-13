@@ -69,82 +69,87 @@ class Comparison extends Component {
     //   />
     // );
     return (
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
         <Form
           formData={this.props.main.formData}
           onCalcClick={this.props.main.clickCalcHandler}
           lssq={true}
           minmax={true}
         />
-        <div
+        {/* <div
           style={{
             width: '90vw',
             position: 'absolute',
             left: '-15vw',
             margin: '30px 0'
-          }}
-        >
-          <Card>
-            <CardText>
-              <Table>
-                <TableBody displayRowCheckbox={false}>
-                  <TableRow>
-                    <TableRowColumn width={'20%'} />
-                    <TableRowColumn>Мінімакс</TableRowColumn>
-                    <TableRowColumn>МНК</TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn width={'20%'}>Макс похибка</TableRowColumn>
-                    <TableRowColumn>
-                      {this.props.main.minmax.max_err.toFixed(4)}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {this.props.main.lssq.max_error.toFixed(4)}
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn width={'20%'}>
-                      x в якому макс похибка
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {this.props.main.minmax.x_of_max_err.toFixed(4)}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {this.props.main.lssq.x_of_max_error.toFixed(4)}
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn width={'20%'}>
-                      Аналітичний вигляд
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Formula
-                        formula={this.props.main.minmax.polynom_latex.replace(
-                          truncateCoefs(4),
-                          '$1'
-                        )}
-                      />
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <Formula
-                        formula={this.props.main.lssq.formula.replace(
-                          truncateCoefs(4),
-                          '$1'
-                        )}
-                      />
-                    </TableRowColumn>
-                  </TableRow>
-                  <TableRow>
-                    <TableRowColumn width={'20%'}>Графіки</TableRowColumn>
-                    {/* <TableRowColumn>{mmPlot}</TableRowColumn> */}
-                    {/* <TableRowColumn>{lsPlot}</TableRowColumn> */}
-                  </TableRow>
-                </TableBody>
-              </Table>
-              {/* {errsPlot} */}
-            </CardText>
-          </Card>
-        </div>
+          }} */}
+        <Card>
+          <CardText>
+            <Table>
+              <TableBody displayRowCheckbox={false}>
+                <TableRow>
+                  <TableRowColumn width={'20%'} />
+                  <TableRowColumn>Мінімакс</TableRowColumn>
+                  <TableRowColumn>МНК</TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn width={'20%'}>Макс похибка</TableRowColumn>
+                  <TableRowColumn>
+                    {this.props.main.minmax.max_err.toFixed(4)}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {this.props.main.lssq.max_error.toFixed(4)}
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn width={'20%'}>
+                    x в якому макс похибка
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {this.props.main.minmax.x_of_max_err.toFixed(4)}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {this.props.main.lssq.x_of_max_error.toFixed(4)}
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn width={'20%'}>
+                    Аналітичний вигляд
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    <Formula
+                      formula={this.props.main.minmax.polynom_latex.replace(
+                        truncateCoefs(4),
+                        '$1'
+                      )}
+                    />
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    <Formula
+                      formula={this.props.main.lssq.formula.replace(
+                        truncateCoefs(4),
+                        '$1'
+                      )}
+                    />
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn width={'20%'}>Графіки</TableRowColumn>
+                  {/* <TableRowColumn>{mmPlot}</TableRowColumn> */}
+                  {/* <TableRowColumn>{lsPlot}</TableRowColumn> */}
+                </TableRow>
+              </TableBody>
+            </Table>
+            {/* {errsPlot} */}
+          </CardText>
+        </Card>
+        {/* </div> */}
       </div>
     );
   }

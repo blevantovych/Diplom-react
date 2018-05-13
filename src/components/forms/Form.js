@@ -1,5 +1,11 @@
 import React, { Component, PureComponent } from 'react';
+import styled from 'styled-components';
 import { TextField, RaisedButton } from 'material-ui';
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 class Form extends PureComponent {
   constructor(props) {
@@ -8,7 +14,7 @@ class Form extends PureComponent {
 
   render() {
     return (
-      <div class="form">
+      <FormContainer>
         <TextField
           floatingLabelText="Функція, яку апроксимуємо"
           type="text"
@@ -69,7 +75,7 @@ class Form extends PureComponent {
             )
           }
         />
-      </div>
+      </FormContainer>
     );
   }
 }

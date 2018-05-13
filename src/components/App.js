@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Routes from '../routes';
-// import Header from './Header';
+import Header from './Header';
 import Loader from './loader';
 // import LS from './LS';
 // import LSDiscrete from './LSDiscrete';
@@ -28,6 +28,28 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 // } from './URLS';
 
 // const base = Rebase.createClass('https://diplom-ff14d.firebaseio.com/')
+const NavBar = () => (
+  <ul>
+    <li>
+      <Link to="/comparisonDiscrete">Comparison discrete</Link>
+    </li>
+    <li>
+      <Link to="/comparison">Comparison</Link>
+    </li>
+    <li>
+      <Link to="/ls">ls</Link>
+    </li>
+    <li>
+      <Link to="/lsDiscrete">lsDiscrete</Link>
+    </li>
+    <li>
+      <Link to="/minmax">minmax</Link>
+    </li>
+    <li>
+      <Link to="/minmax-discrete">minmax-discrete</Link>
+    </li>
+  </ul>
+);
 
 class App extends React.Component {
   constructor(props) {
@@ -289,7 +311,8 @@ class App extends React.Component {
 
     return (
       <MuiThemeProvider>
-        <Routes>
+        <Header />
+        {/* <Routes>
           <div style={{ width: '60vw', margin: 'auto' }}>
             <h1>links</h1>
             <Link to="/comparison-discrete">Comparison discrete</Link>
@@ -307,7 +330,7 @@ class App extends React.Component {
               bodyStyle={{ backgroundColor: 'rgb(0, 188, 212)' }}
             />
           </div>
-        </Routes>
+        </Routes> */}
       </MuiThemeProvider>
     );
   }
