@@ -4,11 +4,11 @@ var webpack = require("webpack");
 var path = require("path");
 
 module.exports = {
-  context: path.join(__dirname, "src"),
+  // context: path.join(__dirname, "src"),
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./js/client.js",
+  entry: ["./src/index.js"],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
@@ -24,12 +24,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
-          // 'url-loader?limit=10000',
           "img-loader"
         ]
       },
@@ -40,8 +39,12 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + "/src/",
-    filename: "client.min.js"
+    filename: 'bundle.js',
+    publicPath: '/'
+  },
+  devServer: {
+    // contentBase: "./src",
+    // hot: true
   },
   plugins: debug
     ? []
