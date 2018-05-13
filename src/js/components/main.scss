@@ -15,10 +15,10 @@ body {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 1.01em !important;
-    font-weight: 100;
-    // font-family: 'Roboto', sans-serif  !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 1.01em !important;
+  font-weight: 100;
+  // font-family: 'Roboto', sans-serif  !important;
 }
 
 #minmax {
@@ -26,57 +26,62 @@ body {
 }
 
 .discrete_table {
- 
   color: #333;
   font-family: Helvetica, Arial, sans-serif;
   width: 640px;
   /* Table reset stuff */
-  // border-collapse: collapse; border-spacing: 0; 
-  
-      
-  td, th {
-    border: 1 solid black!important;
+  // border-collapse: collapse; border-spacing: 0;
+
+  td,
+  th {
+    border: 1 solid black !important;
     height: 30px;
     text-align: center;
     padding: 10px;
   }
-        
+
   th {
-    background: linear-gradient(#333 0%,#444 100%);
-    color: #FFF; font-weight: bold;
+    background: linear-gradient(#333 0%, #444 100%);
+    color: #fff;
+    font-weight: bold;
     height: 40px;
   }
-      
+
   td {
-    background: #FAFAFA;
+    background: #fafafa;
     text-align: center;
     margin: 5px;
     position: relative;
   }
 
   /* Zebra Stripe Rows */
-      
-  tr:nth-child(even) td { background: #EEE; } 
-  tr:nth-child(odd) td { background: #FDFDFD; }
+
+  tr:nth-child(even) td {
+    background: #eee;
+  }
+  tr:nth-child(odd) td {
+    background: #fdfdfd;
+  }
 
   /* First-child blank cells! */
-  tr td:first-child, tr th:first-child { 
-    background: none; 
+  tr td:first-child,
+  tr th:first-child {
+    background: none;
     font-style: italic;
     font-weight: bold;
     font-size: 14px;
     text-align: right;
     padding-right: 10px;
-    width: 80px; 
+    width: 80px;
   }
 
   /* Add border-radius to specific cells! */
-  tr:first-child th:nth-child(2) { 
-    border-radius: 5px 0 0 0; 
-  } 
+  tr:first-child th:nth-child(2) {
+    border-radius: 5px 0 0 0;
+  }
 
-  tr:first-child th:last-child { 
-    border-radius: 0 5px 0 0; 
+  tr:first-child th:last-child {
+    border-radius: 0 5px 0 0;
   }
 }
 
@@ -112,7 +117,7 @@ body {
     left: 40px;
     top: -5px;
     height: 20px;
-    background: 'red';
+    background: "red";
     border: 1px solid black;
     cursor: pointer;
     color: red;
