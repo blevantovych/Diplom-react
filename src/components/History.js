@@ -1,6 +1,6 @@
-import React from "react";
-import { Tabs, Tab } from "material-ui/Tabs";
-import SwipeableViews from "react-swipeable-views";
+import React from 'react';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
 
 const styles = {
   headline: {

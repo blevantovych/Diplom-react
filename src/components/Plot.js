@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Plot extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Plot extends Component {
     // const yRange = this.props.yRange || null
     const yRange = this.props.yRange || null;
     if (this.props.legend === false) {
-      Plotly.newPlot("plot" + this.props.id, this.props.plotData, {
+      Plotly.newPlot('plot' + this.props.id, this.props.plotData, {
         title: this.props.title,
         showlegend: false,
         xaxis: xRange,
@@ -23,7 +23,7 @@ class Plot extends Component {
         // yaxis: {range: [-0.0004, 0.0004]}
       });
     } else {
-      Plotly.newPlot("plot" + this.props.id, this.props.plotData, {
+      Plotly.newPlot('plot' + this.props.id, this.props.plotData, {
         title: this.props.title,
         xaxis: xRange,
         yaxis: { range: yRange }
@@ -41,7 +41,7 @@ class Plot extends Component {
   }
 
   render() {
-    return <div id={"plot" + this.props.id} />;
+    return <div id={'plot' + this.props.id} />;
   }
 }
 

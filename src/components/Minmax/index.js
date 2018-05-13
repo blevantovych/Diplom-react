@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import IterationList from "./IterationList";
-import Form from "./Form";
+import React, { Component } from 'react';
+
+import IterationList from '../iteration-lists/IterationList';
+import Form from '../forms/Form';
 
 class Minmax extends Component {
   constructor(props) {

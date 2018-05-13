@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import FormDiscrete from "./FormDiscrete";
-import IterationListDiscreteMinmax from "./IterationListDiscreteMinmax";
+import React, { Component } from 'react';
+
+import FormDiscrete from '../forms/FormDiscrete';
+import IterationListDiscreteMinmax from '../iteration-lists/IterationListDiscreteMinmax';
 
 class MinmaxDiscrete extends Component {
   render() {

@@ -1,17 +1,17 @@
-import React from "react";
-import IterationMinmaxDiscrete from "./IterationMinmaxDiscrete";
-import Plot from "./Plot";
+import React from 'react';
+
+import Iteration from './Iteration';
+import Plot from '../Plot';
 
 const lineStyles = {
-  color: "rgb(32, 206, 15)",
-  dash: "dash"
+  color: 'rgb(32, 206, 15)',
+  dash: 'dash'
 };
 
-export default class IterationListDiscreteMinmax extends React.Component {
+export default class IterationList extends React.Component {
   constructor(props) {
     super(props);
   }
-
   plotNum = 1;
 
   handleClicks = e => {
@@ -24,20 +24,19 @@ export default class IterationListDiscreteMinmax extends React.Component {
       this.changeErrPlot();
     }
     if (e.keyCode == 39) {
-      this.plotNum++; 
+      this.plotNum++;
       if (this.plotNum === this.props.arr.length) {
-        this.plotNum = 0;                                                                                                                                                                                                                         
+        this.plotNum = 0;
       }
       this.changeErrPlot();
     }
   };
-
   changeErrPlot = () => {
     if (this.plotNum >= this.props.arr.length) {
       this.plotNum = 0;
     }
     Plotly.animate(
-      "plotall_errors_discrete",
+      'plotall_errors',
       {
         data: [
           {
@@ -47,26 +46,29 @@ export default class IterationListDiscreteMinmax extends React.Component {
           {
             x: this.props.arr[this.plotNum].alternance,
             y: this.props.arr[this.plotNum].err_in_each_point,
-            mode: "markers"
+            mode: 'markers'
           },
           {
-            x: this.props.arr[this.plotNum].x_approx,
-            y: Array(this.props.arr[this.plotNum].x_approx.length).fill(
+            x: this.props.arr[this.plotNum].error_plot[0],
+            y: Array(this.props.arr[this.plotNum].error_plot[0].length).fill(
               this.props.arr[this.plotNum].err_in_each_point[0]
             ),
             line: lineStyles
           },
           {
-            x: this.props.arr[this.plotNum].x_approx,
-            y: Array(this.props.arr[this.plotNum].x_approx.length).fill(
+            x: this.props.arr[this.plotNum].error_plot[0],
+            y: Array(this.props.arr[this.plotNum].error_plot[0].length).fill(
               -this.props.arr[this.plotNum].err_in_each_point[0]
             ),
             line: lineStyles
           },
           {
             ...this.props.arr[this.plotNum].max_err_in_error_plot,
-            mode: "lines",
-            name: "Макс. похибка"
+            mode: 'lines',
+            name: 'Макс. похибка',
+            line: {
+              color: 'rgba(255, 0, 0, 0.6)'
+            }
           }
         ],
         layout: {
@@ -76,19 +78,30 @@ export default class IterationListDiscreteMinmax extends React.Component {
       {
         transition: {
           duration: 500,
-          easing: "cubic-in-out"
+          easing: 'cubic-in-out'
         }
       }
     );
   };
+
   render() {
-    const iters = this.props.arr.map((el, i, a) => {
-      return <IterationMinmaxDiscrete key={i} ctn={i} data={el} />;
-    });
+    // setInterval(this.changeErrPlot, 5000)
     const computationTime =
       this.props.arr.length > 0
         ? `Час рахування: ${this.props.arr[0].computation_time.toFixed(2)}`
         : null;
+
+    const iters = this.props.arr.map((el, i, a) => {
+      return (
+        <Iteration
+          isLast={i === a.length - 1}
+          key={i}
+          ctn={i}
+          data={el}
+          precision={this.props.arr[0].precision}
+        />
+      );
+    });
 
     const yMin = Math.min(
       ...this.props.arr.map(i => Math.min(...i.error_plot[1]))
@@ -101,46 +114,55 @@ export default class IterationListDiscreteMinmax extends React.Component {
       <div>
         {iters}
         {this.props.arr.length > 0 && (
-          <div onKeyDown={this.handleClicks} tabIndex="0">
+          <div
+            //onClick={this.changeErrPlot}
+            onKeyDown={this.handleClicks}
+            tabIndex="0"
+          >
             <Plot
-              id="all_errors_discrete"
+              id="all_errors"
               title="Ітерація 1"
+              //plotData={this.props.arr.map(el => ({
+              //  x: el.error_plot[0],
+              //  y: el.error_plot[1],
+              //}))}
               yRange={[yMin - Math.abs(yMin) * 0.1, yMax + yMax * 0.1]}
               plotData={[
                 {
                   x: this.props.arr[0].error_plot[0],
                   y: this.props.arr[0].error_plot[1],
-                  name: "Функція похибки"
+                  name: 'Функція похибки'
                 },
                 {
                   x: this.props.arr[0].alternance,
                   y: this.props.arr[0].err_in_each_point,
-                  mode: "markers",
-                  name: "Точки альтернансу"
+                  mode: 'markers',
+                  name: 'Точки альтернансу'
                 },
                 {
-                  x: this.props.arr[0].x_approx,
-                  y: Array(this.props.arr[0].x_approx.length).fill(
+                  x: this.props.arr[0].error_plot[0],
+                  y: Array(this.props.arr[0].error_plot[0].length).fill(
                     this.props.arr[0].err_in_each_point[0]
                   ),
                   line: lineStyles,
+                  //visible: 'legendonly'
                   showlegend: false
                 },
                 {
-                  x: this.props.arr[0].x_approx,
-                  y: Array(this.props.arr[0].x_approx.length).fill(
+                  x: this.props.arr[0].error_plot[0],
+                  y: Array(this.props.arr[0].error_plot[0].length).fill(
                     -this.props.arr[0].err_in_each_point[0]
                   ),
                   line: lineStyles,
                   showlegend: false
+                  //visible: 'legendonly'
                 },
                 {
                   ...this.props.arr[0].max_err_in_error_plot,
-                  mode: "lines",
-                  name: "Макс. похибка",
+                  mode: 'lines',
+                  name: 'Макс. похибка',
                   line: {
-                    //   color: 'rgba(#ff0000, 0.3)'
-                    color: "rgba(255, 0, 0, 0.6)"
+                    color: 'rgba(255, 0, 0, 0.6)'
                   }
                 }
               ]}

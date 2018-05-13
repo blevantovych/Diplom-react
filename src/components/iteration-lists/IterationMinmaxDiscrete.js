@@ -1,11 +1,10 @@
-import React from "react";
-import Plot from "./Plot";
-import Formula from "./Formula";
+import React from 'react';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 
-import { Card, CardHeader, CardText } from "material-ui/Card";
-import { Table, TableBody, TableRow, TableRowColumn } from "material-ui/Table";
-
-import truncateCoefs from "../helpers/truncateCoefs";
+import Plot from '../Plot';
+import Formula from '../Formula';
+import truncateCoefs from '../../helpers/truncateCoefs';
 
 export default class IterationMinmaxDiscrete extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ export default class IterationMinmaxDiscrete extends React.Component {
     const alt = this.props.data.alternance.map((el, i) => {
       return (
         <TableRowColumn key={i}>
-          {el.toFixed(7).replace(/0+$/, "0")}
+          {el.toFixed(7).replace(/0+$/, '0')}
         </TableRowColumn>
       );
     });
@@ -45,12 +44,12 @@ export default class IterationMinmaxDiscrete extends React.Component {
     return (
       <div>
         <Card
-          style={{ margin: "20px 0" }}
+          style={{ margin: '20px 0' }}
           expanded={this.state.expanded}
           onExpandChange={this.handleExpandChange}
         >
           <CardHeader
-            title={"Ітерація " + (this.props.ctn + 1)}
+            title={'Ітерація ' + (this.props.ctn + 1)}
             actAsExpander={true}
             showExpandableButton={true}
           />
@@ -87,7 +86,7 @@ export default class IterationMinmaxDiscrete extends React.Component {
                     <Formula
                       formula={this.props.data.formula.replace(
                         truncateCoefs(4),
-                        "$1"
+                        '$1'
                       )}
                     />
                   </TableRowColumn>
@@ -99,35 +98,35 @@ export default class IterationMinmaxDiscrete extends React.Component {
               </TableBody>
             </Table>
             <Plot
-              id={"minmax_discrete_plot" + this.props.ctn}
+              id={'minmax_discrete_plot' + this.props.ctn}
               plotData={[
                 //{x: this.props.data.x_approx, y: this.props.data.f_x_approx, name: 'Функція'},
                 {
                   x: this.props.data.x_approx,
                   y: this.props.data.approximation,
-                  name: "Апроксимація"
+                  name: 'Апроксимація'
                 },
                 {
                   x: this.props.data.x_vals,
                   y: this.props.data.y_vals,
-                  mode: "markers",
-                  name: "Табл. дані"
+                  mode: 'markers',
+                  name: 'Табл. дані'
                 },
                 {
                   x: this.props.data.alternance,
                   y: this.props.data.f_alternance,
-                  mode: "markers",
-                  name: "Точки альтернансу"
+                  mode: 'markers',
+                  name: 'Точки альтернансу'
                 },
                 {
                   ...this.props.data.max_error_line,
-                  name: "Максимальна похибка"
+                  name: 'Максимальна похибка'
                 }
               ]}
             />
             <Plot
               legend={false}
-              id={"minmax_error_func" + this.props.ctn}
+              id={'minmax_error_func' + this.props.ctn}
               plotData={[
                 {
                   x: this.props.data.error_plot[0],
@@ -141,10 +140,10 @@ export default class IterationMinmaxDiscrete extends React.Component {
                         this.props.data.error_plot[0][i]
                       ) !== -1
                   ),
-                  mode: "markers"
+                  mode: 'markers'
                 }
               ]}
-              title={"Графік функції похибки"}
+              title={'Графік функції похибки'}
             />
           </CardText>
         </Card>

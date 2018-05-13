@@ -1,5 +1,5 @@
-import React, { Component, PureComponent } from "react";
-import { TextField, RaisedButton } from "material-ui";
+import React, { Component, PureComponent } from 'react';
+import { TextField, RaisedButton } from 'material-ui';
 
 class Form extends PureComponent {
   constructor(props) {
@@ -73,5 +73,16 @@ class Form extends PureComponent {
     );
   }
 }
+
+Form.defaultProps = {
+  formData: {
+    func: 'sin(x)',
+    start: 0,
+    end: 3,
+    deg: 2,
+    precision: 0.01,
+    points: 10
+  }
+};
 
 export default Form;

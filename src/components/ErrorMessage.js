@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Snackbar from "material-ui/Snackbar";
+import React, { Component } from 'react';
+import Snackbar from 'material-ui/Snackbar';
 
 class ErrorMessage extends Component {
   render() {
@@ -7,7 +7,7 @@ class ErrorMessage extends Component {
       <div>
         <Snackbar
           open={this.props.open}
-          message={this.props.message || "Something went wrong!"}
+          message={this.props.message || 'Something went wrong!'}
           autoHideDuration={this.props.duration || 4000}
           onRequestClose={this.props.handleClose}
         />

@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import AppBar from "material-ui/AppBar";
-import IconButton from "material-ui/IconButton";
-import IconMenu from "material-ui/IconMenu";
-import MenuItem from "material-ui/MenuItem";
-import ArrowDropRight from "material-ui/svg-icons/navigation-arrow-drop-right";
+import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
-import Hamburger from "material-ui/svg-icons/navigation/menu";
+import Hamburger from 'material-ui/svg-icons/navigation/menu';
 
 const Menu = props => (
   <IconMenu
     iconButtonElement={
       <IconButton>
-        <Hamburger color={"white"} />
+        <Hamburger color={'white'} />
       </IconButton>
     }
-    targetOrigin={{ horizontal: "right", vertical: "top" }}
-    anchorOrigin={{ horizontal: "right", vertical: "top" }}
+    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
     <MenuItem
       primaryText="Дискретний випадок"
@@ -61,7 +61,7 @@ class Header extends Component {
   render() {
     return (
       <AppBar
-        style={{ position: "fixed", top: 0, width: "60vw" }}
+        style={{ position: 'fixed', top: 0, width: '60vw' }}
         title={this.props.title}
         showMenuIconButton={false}
         iconElementRight={<Menu onMenuChange={this.props.onMenuChange} />}
